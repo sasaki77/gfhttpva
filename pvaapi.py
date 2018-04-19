@@ -1,30 +1,32 @@
 from collections import OrderedDict
 import numpy
 from numpy import ndarray
-from pvaccess import RpcClient, PvObject, STRING
+
+import pvaccess as pva
 
 # [TODO] effective array treatment with numpy
 
 def create_request(entity, params, starttime, endtime):
-    po_type = {"entity": STRING, "starttime": STRING, "endtime": STRING}
+    po_type = {"entity": pva.STRING, "starttime": pva.STRING,
+               "endtime": pva.STRING}
     po_val = {"entity": str(entity), "starttime": str(starttime),
               "endtime": str(endtime)}
 
     for i,param in enumerate(params):
-        po_type["param" + str(i+1)] = STRING
+        po_type["param" + str(i+1)] = pva.STRING
         po_val["param" + str(i+1)] = str(param)
 
-    request = PvObject(po_type)
+    request = pva.PvObject(po_type)
     request.set(po_val)
 
     return request
 
 
 def create_search_request(entity, name):
-    po_type = {"entity": STRING, "name": STRING}
+    po_type = {"entity": pva.STRING, "name": pva.STRING}
     po_val = {"entity": str(entity), "name": str(name)}
 
-    request = PvObject(po_type)
+    request = pva.PvObject(po_type)
     request.set(po_val)
 
     return request
@@ -36,7 +38,7 @@ def get_value_from_table(table, key):
 
 
 def valget(prefix,entity, params, starttime, endtime):
-    rpc = RpcClient(str(prefix) + "get")
+    rpc = pva.RpcClient(str(prefix) + "get")
 
     request = create_request(entity, params, starttime, endtime)
     response = rpc.invoke(request)
@@ -60,7 +62,7 @@ def valget(prefix,entity, params, starttime, endtime):
 
 
 def valget_table(prefix, entity, params, starttime, endtime):
-    rpc = RpcClient(str(prefix) + "get")
+    rpc = pva.RpcClient(str(prefix) + "get")
 
     request = create_request(entity, params, starttime, endtime)
     response = rpc.invoke(request)
@@ -92,7 +94,7 @@ def valget_table(prefix, entity, params, starttime, endtime):
 
 
 def get_annotation(prefix, annotation, entity, params, starttime, endtime):
-    rpc = RpcClient(str(prefix) + "annotation")
+    rpc = pva.RpcClient(str(prefix) + "annotation")
 
     request = create_request(entity, params, starttime, endtime)
     response = rpc.invoke(request)
@@ -118,7 +120,7 @@ def get_annotation(prefix, annotation, entity, params, starttime, endtime):
 
 
 def get_search(prefix, entity, name):
-    rpc = RpcClient(str(prefix) + "search")
+    rpc = pva.RpcClient(str(prefix) + "search")
 
     request = create_search_request(entity, name)
     response = rpc.invoke(request)
