@@ -59,7 +59,7 @@ def query_metrics():
 
     res = []
     for target in req["targets"]:
-        params = target["param"] if "param" in target else []
+        params = target["params"] if "params" in target else []
         entity = target["target"] if "target" in target else ""
 
         if target["type"] == "table":
@@ -84,7 +84,7 @@ def query_annotations():
     prefix = req["annotation"]["prefix"]
     starttime = iso_to_dt(req["range"]["from"].split(".")[0])
     endtime = iso_to_dt(req["range"]["to"].split(".")[0])
-    params = req["annotation"]["param"] if "param" in req["annotation"] else []
+    params = req["annotation"]["params"] if "params" in req["annotation"] else []
 
     res = get_annotation(prefix, req["annotation"], req["annotation"]["entity"],
                          params, starttime, endtime)

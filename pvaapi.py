@@ -12,12 +12,14 @@ def create_request(entity, params, starttime, endtime):
     po_val = {"entity": str(entity), "starttime": str(starttime),
               "endtime": str(endtime)}
 
-    for i,param in enumerate(params):
-        po_type["param" + str(i+1)] = pva.STRING
-        po_val["param" + str(i+1)] = str(param)
+    for key, val in params.items():
+        po_type[str(key)] = pva.STRING
+        po_val[str(key)] = str(val)
+
 
     request = pva.PvObject(po_type)
     request.set(po_val)
+    print request
 
     return request
 
