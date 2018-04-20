@@ -19,7 +19,6 @@ def create_request(entity, params, starttime, endtime):
 
     request = pva.PvObject(po_type)
     request.set(po_val)
-    print request
 
     return request
 
