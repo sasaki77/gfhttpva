@@ -38,9 +38,12 @@ def find_metrics():
     print request.headers, request.get_json()
     req = request.get_json()
 
-    prefix = req["prefix"]
-    entity = req["target"]
-    name = req["name"] if "name" in req else "entity"
+    try:
+        prefix = req["prefix"]
+        entity = req["target"]
+        name = req["name"] if "name" in req else "entity"
+    except KeyError:
+        return
 
     res = get_search(prefix, entity, name)
 
@@ -53,16 +56,25 @@ def query_metrics():
     print request.headers, request.get_json()
     req = request.get_json()
 
-    prefix = req["jsonData"]["prefix"]
-    starttime = iso_to_dt(req["range"]["from"].split(".")[0])
-    endtime = iso_to_dt(req["range"]["to"].split(".")[0])
+    try:
+        prefix = req["jsonData"]["prefix"]
+        starttime = iso_to_dt(req["range"]["from"].split(".")[0])
+        endtime = iso_to_dt(req["range"]["to"].split(".")[0])
+        targets = req["targets"]
+    except (KeyError, IndexError) as e:
+        return
 
     res = []
-    for target in req["targets"]:
+    for target in targets:
         params = target["params"] if "params" in target else {}
         entity = target["target"] if "target" in target else ""
 
-        if target["type"] == "table":
+        try:
+            ttype = target["type"]
+        except KeyError:
+            return
+
+        if ttype == "table":
             table = valget_table(prefix, entity,
                                  params, starttime, endtime)
             return jsonify(table)
@@ -81,15 +93,20 @@ def query_annotations():
     print request.headers, request.get_json()
     req = request.get_json()
 
-    prefix = req["annotation"]["prefix"]
-    starttime = iso_to_dt(req["range"]["from"].split(".")[0])
-    endtime = iso_to_dt(req["range"]["to"].split(".")[0])
-    params = req["annotation"]["params"] if "params" in req["annotation"] else {}
+    try:
+        ann = req["annotation"]
+        prefix = ann["prefix"]
+        entity = ann["entity"]
+        starttime = iso_to_dt(req["range"]["from"].split(".")[0])
+        endtime = iso_to_dt(req["range"]["to"].split(".")[0])
+        params = ann["params"] if "params" in req["annotation"] else {}
+    except (KeyError, IndexError) as e:
+        return
 
-    res = get_annotation(prefix, req["annotation"], req["annotation"]["entity"],
+    res = get_annotation(prefix, ann, entity,
                          params, starttime, endtime)
     return jsonify(res)
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=3003, debug=True)
+    app.run(host="0.0.0.0", port=3004, debug=True)
