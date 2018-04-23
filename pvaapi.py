@@ -2,7 +2,6 @@ from collections import OrderedDict
 
 import pvaccess as pva
 
-# [TODO] effective array treatment with numpy
 
 def create_request(entity, params, starttime, endtime):
     po_type = {"entity": pva.STRING, "starttime": pva.STRING,
@@ -31,9 +30,12 @@ def create_search_request(entity, name):
 
 
 def get_value_from_table(table, key):
-    index = "column" + str(table["labels"].index(key))
-    return table["value"][index]
-
+    try:
+        index = "column" + str(table["labels"].index(key))
+        return table["value"][index]
+    except KeyError:
+        print "get_value_from_table: KeyError"
+        return
 
 def valget(prefix,entity, params, starttime, endtime):
     rpc = pva.RpcClient(str(prefix) + "get")
@@ -67,21 +69,30 @@ def valget_table(prefix, entity, params, starttime, endtime):
 
     res = response.get()
 
-    # [TODO] validation
+    try:
+        labels = res["labels"]
+    except KeyError:
+        print "valget_table: label KeyError"
+        return
+
     columns = []
-    for label in res["labels"]:
+    for label in labels:
         if label.lower() == "time":
             columns.append({"text": label, "type": "time"})
         else:
             columns.append({"text": label})
 
     rows = []
-    for i in range(len(res["value"]["column0"])):
-        row = []
-        for j, column in enumerate(columns):
-            val = res["value"]["column"+str(j)][i]
-            row.append(val)
-        rows.append(row)
+    try:
+        for i in range(len(res["value"]["column0"])):
+            row = []
+            for j, column in enumerate(columns):
+                val = res["value"]["column"+str(j)][i]
+                row.append(val)
+            rows.append(row)
+    except KeyError:
+        print "valget_table: value KeyError"
+        return
 
     table = [{"columns": columns, "rows": rows, "type":"table"}]
 
@@ -127,6 +138,10 @@ def get_search(prefix, entity, name):
     if hasattr(response, "useNumPyArrays"):
         response.useNumPyArrays = False
 
-    res = response.get()
+    try:
+        res = response.getScalarArray("value")
+    except:
+        print "get_search: response get error"
+        return
 
-    return res["value"]
+    return res
