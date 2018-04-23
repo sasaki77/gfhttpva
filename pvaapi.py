@@ -82,14 +82,9 @@ def valget_table(prefix, entity, params, starttime, endtime):
         else:
             columns.append({"text": label})
 
-    rows = []
     try:
-        for i in range(len(res["value"]["column0"])):
-            row = []
-            for j, column in enumerate(columns):
-                val = res["value"]["column"+str(j)][i]
-                row.append(val)
-            rows.append(row)
+        rows_T = [res["value"]["column"+str(i)] for i in range(len(columns))]
+        rows = [[row[i] for row in rows_T] for i in range(len(rows_T[0]))]
     except KeyError:
         print "valget_table: value KeyError"
         return
