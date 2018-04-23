@@ -1,6 +1,4 @@
 from collections import OrderedDict
-import numpy
-from numpy import ndarray
 
 import pvaccess as pva
 
@@ -15,7 +13,6 @@ def create_request(entity, params, starttime, endtime):
     for key, val in params.items():
         po_type[str(key)] = pva.STRING
         po_val[str(key)] = str(val)
-
 
     request = pva.PvObject(po_type)
     request.set(po_val)
@@ -43,6 +40,10 @@ def valget(prefix,entity, params, starttime, endtime):
 
     request = create_request(entity, params, starttime, endtime)
     response = rpc.invoke(request)
+
+    if hasattr(response, "useNumPyArrays"):
+        response.useNumPyArrays = False
+
     res = response.get()
 
     value = get_value_from_table(res, "value")
@@ -52,14 +53,7 @@ def valget(prefix,entity, params, starttime, endtime):
     time_ms = [sec*1000 + nano//(10**6) 
                for sec, nano in zip(seconds, nano)]
 
-    if isinstance(value, ndarray):
-        val_list = value.tolist()
-    elif isinstance(value, list):
-        val_list = value
-    else:
-        val_list = list(value)
-
-    return zip(val_list, time_ms)
+    return zip(list(value), time_ms)
 
 
 def valget_table(prefix, entity, params, starttime, endtime):
@@ -67,6 +61,10 @@ def valget_table(prefix, entity, params, starttime, endtime):
 
     request = create_request(entity, params, starttime, endtime)
     response = rpc.invoke(request)
+
+    if hasattr(response, "useNumPyArrays"):
+        response.useNumPyArrays = False
+
     res = response.get()
 
     # [TODO] validation
@@ -82,10 +80,6 @@ def valget_table(prefix, entity, params, starttime, endtime):
         row = []
         for j, column in enumerate(columns):
             val = res["value"]["column"+str(j)][i]
-            if isinstance(val, unicode):
-                val = str(val)
-            elif type(val).__module__ == numpy.__name__:
-                val = float(val)
             row.append(val)
         rows.append(row)
 
@@ -99,6 +93,10 @@ def get_annotation(prefix, annotation, entity, params, starttime, endtime):
 
     request = create_request(entity, params, starttime, endtime)
     response = rpc.invoke(request)
+
+    if hasattr(response, "useNumPyArrays"):
+        response.useNumPyArrays = False
+
     res = response.get()
 
     time = get_value_from_table(res, "time")
@@ -125,6 +123,10 @@ def get_search(prefix, entity, name):
 
     request = create_search_request(entity, name)
     response = rpc.invoke(request)
+
+    if hasattr(response, "useNumPyArrays"):
+        response.useNumPyArrays = False
+
     res = response.get()
 
     return res["value"]
