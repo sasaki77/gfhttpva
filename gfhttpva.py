@@ -6,6 +6,7 @@ from flask import Flask, request, jsonify, json, abort
 from flask_cors import CORS, cross_origin
 
 from pvaapi import valget, valget_table, get_annotation, get_search
+from exception import InvalidRequest
 
 app = Flask(__name__)
 
@@ -16,13 +17,12 @@ methods = ("GET", "POST")
 
 
 def iso_to_dt(iso_str):
-    dt = None
     try:
         dt = datetime.strptime(iso_str, "%Y-%m-%dT%H:%M:%S")
         dt = pytz.utc.localize(dt).astimezone(pytz.timezone("Asia/Tokyo"))
+        return dt.strftime("%Y-%m-%dT%H:%M:%S")
     except:
-        print "err"
-    return dt.strftime("%Y-%m-%dT%H:%M:%S")
+        raise InvalidRequest("Invalid query time", status_code=400)
 
 
 @app.route("/", methods=methods)
@@ -43,7 +43,7 @@ def find_metrics():
         entity = req["target"]
         name = req["name"] if "name" in req else "entity"
     except KeyError:
-        return
+        raise InvalidRequest("Search request invalid", status_code=400)
 
     res = get_search(prefix, entity, name)
 
@@ -62,7 +62,7 @@ def query_metrics():
         endtime = iso_to_dt(req["range"]["to"].split(".")[0])
         targets = req["targets"]
     except (KeyError, IndexError) as e:
-        return
+        raise InvalidRequest("Invalid query", status_code=400)
 
     res = []
     for target in targets:
@@ -72,7 +72,7 @@ def query_metrics():
         try:
             ttype = target["type"]
         except KeyError:
-            return
+            raise InvalidRequest("Invalid query", status_code=400)
 
         if ttype == "table":
             table = valget_table(prefix, entity,
@@ -101,11 +101,18 @@ def query_annotations():
         endtime = iso_to_dt(req["range"]["to"].split(".")[0])
         params = ann["params"] if "params" in req["annotation"] else {}
     except (KeyError, IndexError) as e:
-        return
+        raise InvalidRequest("Invalid query", status_code=400)
 
     res = get_annotation(prefix, ann, entity,
                          params, starttime, endtime)
     return jsonify(res)
+
+
+@app.errorhandler(InvalidRequest)
+def handle_invalid_usage(error):
+    response = jsonify(error.to_dict())
+    response.status_code = error.status_code
+    return response
 
 
 if __name__ == "__main__":

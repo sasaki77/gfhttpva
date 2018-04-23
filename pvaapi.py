@@ -1,6 +1,7 @@
 from collections import OrderedDict
 
 import pvaccess as pva
+from exception import InvalidRequest
 
 
 def create_request(entity, params, starttime, endtime):
@@ -33,9 +34,9 @@ def get_value_from_table(table, key):
     try:
         index = "column" + str(table["labels"].index(key))
         return table["value"][index]
-    except KeyError:
+    except (KeyError, ValueError) as e:
         print "get_value_from_table: KeyError"
-        return
+        raise InvalidRequest("RPC returned value is invalid", status_code=400)
 
 def valget(prefix,entity, params, starttime, endtime):
     rpc = pva.RpcClient(str(prefix) + "get")
@@ -73,7 +74,7 @@ def valget_table(prefix, entity, params, starttime, endtime):
         labels = res["labels"]
     except KeyError:
         print "valget_table: label KeyError"
-        return
+        raise InvalidRequest("RPC returned labels is invalid", status_code=400)
 
     columns = []
     for label in labels:
@@ -87,7 +88,7 @@ def valget_table(prefix, entity, params, starttime, endtime):
         rows = [[row[i] for row in rows_T] for i in range(len(rows_T[0]))]
     except KeyError:
         print "valget_table: value KeyError"
-        return
+        raise InvalidRequest("RPC returned value is invalid", status_code=400)
 
     table = [{"columns": columns, "rows": rows, "type":"table"}]
 
@@ -137,6 +138,6 @@ def get_search(prefix, entity, name):
         res = response.getScalarArray("value")
     except:
         print "get_search: response get error"
-        return
+        raise InvalidRequest("RPC returned value is invalid", status_code=400)
 
     return res
