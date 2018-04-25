@@ -3,6 +3,8 @@ from collections import OrderedDict
 import pvaccess as pva
 from exception import InvalidRequest
 
+TIMEOUT = 5
+
 
 def create_request(entity, params, starttime, endtime):
     po_type = {"entity": pva.STRING, "starttime": pva.STRING,
@@ -42,7 +44,7 @@ def valget(prefix,entity, params, starttime, endtime):
     rpc = pva.RpcClient(str(prefix) + "get")
 
     request = create_request(entity, params, starttime, endtime)
-    response = rpc.invoke(request)
+    response = rpc.invoke(request, TIMEOUT)
 
     if hasattr(response, "useNumPyArrays"):
         response.useNumPyArrays = False
@@ -63,7 +65,7 @@ def valget_table(prefix, entity, params, starttime, endtime):
     rpc = pva.RpcClient(str(prefix) + "get")
 
     request = create_request(entity, params, starttime, endtime)
-    response = rpc.invoke(request)
+    response = rpc.invoke(request, TIMEOUT)
 
     if hasattr(response, "useNumPyArrays"):
         response.useNumPyArrays = False
@@ -99,7 +101,7 @@ def get_annotation(prefix, annotation, entity, params, starttime, endtime):
     rpc = pva.RpcClient(str(prefix) + "annotation")
 
     request = create_request(entity, params, starttime, endtime)
-    response = rpc.invoke(request)
+    response = rpc.invoke(request, TIMEOUT)
 
     if hasattr(response, "useNumPyArrays"):
         response.useNumPyArrays = False
@@ -129,7 +131,7 @@ def get_search(prefix, entity, name):
     rpc = pva.RpcClient(str(prefix) + "search")
 
     request = create_search_request(entity, name)
-    response = rpc.invoke(request)
+    response = rpc.invoke(request, TIMEOUT)
 
     if hasattr(response, "useNumPyArrays"):
         response.useNumPyArrays = False
