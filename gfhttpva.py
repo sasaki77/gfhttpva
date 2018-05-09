@@ -21,7 +21,19 @@ def iso_to_dt(iso_str):
         dt = datetime.strptime(iso_str, "%Y-%m-%dT%H:%M:%S")
         dt = pytz.utc.localize(dt).astimezone(pytz.timezone("Asia/Tokyo"))
         return dt.strftime("%Y-%m-%dT%H:%M:%S")
-    except:
+    except ValueError:
+        raise InvalidRequest("Invalid query time", status_code=400)
+    except pytz.exceptinos.AmbiguousTimeError:
+        print('pytz.exceptions.AmbiguousTimeError: %s' % dt)
+        raise InvalidRequest("Invalid query time", status_code=400)
+    except pytz.exceptions.InvalidTimeError:
+        print('pytz.exceptions.InvalidTimeError: %s' % dt)
+        raise InvalidRequest("Invalid query time", status_code=400)
+    except pytz.exceptions.NonExistentTimeError:
+        print('pytz.exceptions.NonExistentTimeError: %s' % dt)
+        raise InvalidRequest("Invalid query time", status_code=400)
+    except pytz.exceptions.UnknownTimeZoneError:
+        print('pytz.exceptions.UnknownTimeZoneError: %s' % dt)
         raise InvalidRequest("Invalid query time", status_code=400)
 
 
@@ -29,7 +41,7 @@ def iso_to_dt(iso_str):
 @cross_origin()
 def hello_world():
     print request.headers, request.get_json()
-    return "pvaccess python Grafana datasource, used for rendering HTML panels and timeseries data."
+    return "pvaccess python Grafana datasource"
 
 
 @app.route("/search", methods=methods)

@@ -40,7 +40,8 @@ def get_value_from_table(table, key):
         print "get_value_from_table: KeyError"
         raise InvalidRequest("RPC returned value is invalid", status_code=400)
 
-def valget(prefix,entity, params, starttime, endtime):
+
+def valget(prefix, entity, params, starttime, endtime):
     rpc = pva.RpcClient(str(prefix) + "get")
 
     request = create_request(entity, params, starttime, endtime)
@@ -55,7 +56,7 @@ def valget(prefix,entity, params, starttime, endtime):
     seconds = get_value_from_table(res, "seconds")
     nano = get_value_from_table(res, "nanoseconds")
 
-    time_ms = [sec*1000 + nano//(10**6) 
+    time_ms = [sec*1000 + nano//(10**6)
                for sec, nano in zip(seconds, nano)]
 
     return zip(list(value), time_ms)
@@ -92,7 +93,7 @@ def valget_table(prefix, entity, params, starttime, endtime):
         print "valget_table: value KeyError"
         raise InvalidRequest("RPC returned value is invalid", status_code=400)
 
-    table = [{"columns": columns, "rows": rows, "type":"table"}]
+    table = [{"columns": columns, "rows": rows, "type": "table"}]
 
     return table
 
@@ -114,7 +115,7 @@ def get_annotation(prefix, annotation, entity, params, starttime, endtime):
     text = get_value_from_table(res, "text")
 
     annotations = []
-    for tm,ti,tag,tex in zip(time, title, tags, text):
+    for tm, ti, tag, tex in zip(time, title, tags, text):
         ann = {
                 "annotation": str(annotation),
                 "time": int(tm),
@@ -138,7 +139,7 @@ def get_search(prefix, entity, name):
 
     try:
         res = response.getScalarArray("value")
-    except:
+    except (FieldNotFound, InvalidRequest):
         print "get_search: response get error"
         raise InvalidRequest("RPC returned value is invalid", status_code=400)
 
