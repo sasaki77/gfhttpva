@@ -37,7 +37,9 @@ pvAccess Server should implement 3 URIs:
 
 ### Get API
 
-Eample request. `starttime`, `endtime` and `entity` are necessary arguments. Any other arguments are optional which are determined by generalpvaccess-datasource settings.
+Eample request
+
+`starttime`, `endtime` and `entity` are necessary arguments. Any other arguments are optional which are determined by generalpvaccess-datasource settings.
 ```
 structure 
     string starttime 2018-05-16T07:08:44
@@ -46,7 +48,9 @@ structure
     string begin 5
 ```
 
-Example `timeserie` reponse. `timeserie` response must has `value`, `seconds` and `nanoseconds` column. Each element name of `structure value` must be `columnX`.
+Example `timeserie` reponse
+
+`timeserie` response must has `value`, `seconds` and `nanoseconds` column. Each element name of `structure value` must be `columnX`.
 ```
 epics:nt/NTTable:1.0 
     string[] labels [value,seconds,nanoseconds]
@@ -56,7 +60,9 @@ epics:nt/NTTable:1.0
         double[] column2 [123456, 135246, 124536]
 ```
 
-Example `table` reponse. The table can be composed of any columns but each element name of `structure value` must be `columnX`.
+Example `table` reponse
+
+The table can be composed of any columns but each element name of `structure value` must be `columnX`.
 ```
 epics:nt/NTTable:1.0 
     string[] labels [value,seconds,nanoseconds,status,severity]
