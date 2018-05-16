@@ -56,7 +56,7 @@ epics:nt/NTTable:1.0
     string[] labels [value,seconds,nanoseconds]
     structure value
         double[] column0 [5, 6, 7]
-        double[] column1 [1526422268, 1526433068, 1526443868]
+        double[] column1 [1526422268, 1526433068, 1526443868] // unixtimestamp in seconds
         double[] column2 [123456, 135246, 124536]
 ```
 
@@ -68,7 +68,7 @@ epics:nt/NTTable:1.0
     string[] labels [value,seconds,nanoseconds,status,severity]
     structure value
         double[] column0 [1.1, 1.2, 2.0]
-        double[] column1 [1460589140, 1460589141, 1460589142] // unixtimestamp in seconds
+        double[] column1 [1460589140, 1460589141, 1460589142]
         double[] column2 [164235768, 164235245, 164235256]
         double[] column3 [0, 0, 1]
         double[] column4 [0, 0, 3]
