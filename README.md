@@ -37,7 +37,7 @@ pvAccess Server should implement 3 URIs:
 
 ### Get API
 
-Eample request
+Example request
 
 `starttime`, `endtime` and `entity` are necessary arguments. Any other arguments are optional which are determined by generalpvaccess-datasource settings.
 ```
