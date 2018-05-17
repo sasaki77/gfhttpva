@@ -35,6 +35,11 @@ pvAccess Server should implement 3 URIs:
 
 `$(prefix)` is passed from generalpvaccess-datasource.
 
+### Example pvAccess server implementations
+
+- https://github.com/sasaki77/grafana-pvarpc-sample
+- https://github.com/sasaki77/cssalmrpc
+
 ### Get API
 
 Example request
