@@ -3,6 +3,8 @@ from collections import OrderedDict
 import pvaccess as pva
 from exception import InvalidRequest
 
+from flask import current_app
+
 TIMEOUT = 5
 
 
@@ -37,7 +39,7 @@ def get_value_from_table(table, key):
         index = "column" + str(table["labels"].index(key))
         return table["value"][index]
     except (KeyError, ValueError) as e:
-        app.logger.error("get_value_from_table: KeyError")
+        current_app.logger.error("get_value_from_table: KeyError")
         raise InvalidRequest("RPC returned value is invalid", status_code=400)
 
 
@@ -76,7 +78,7 @@ def valget_table(prefix, entity, params, starttime, endtime):
     try:
         labels = res["labels"]
     except KeyError:
-        app.logger.error("valget_table: label KeyError")
+        current_app.logger.error("valget_table: label KeyError")
         raise InvalidRequest("RPC returned labels is invalid", status_code=400)
 
     columns = []
@@ -90,7 +92,7 @@ def valget_table(prefix, entity, params, starttime, endtime):
         rows_T = [res["value"]["column"+str(i)] for i in range(len(columns))]
         rows = [[row[i] for row in rows_T] for i in range(len(rows_T[0]))]
     except KeyError:
-        app.logger.error("valget_table: value KeyError")
+        current_app.logger.error("valget_table: value KeyError")
         raise InvalidRequest("RPC returned value is invalid", status_code=400)
 
     table = [{"columns": columns, "rows": rows, "type": "table"}]
@@ -140,7 +142,7 @@ def get_search(prefix, entity, name):
     try:
         res = response.getScalarArray("value")
     except (FieldNotFound, InvalidRequest):
-        app.logger.error("get_search: response get error")
+        current_app.logger.error("get_search: response get error")
         raise InvalidRequest("RPC returned value is invalid", status_code=400)
 
     return res
