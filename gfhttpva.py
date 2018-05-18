@@ -24,30 +24,34 @@ def iso_to_dt(iso_str):
     except ValueError:
         raise InvalidRequest("Invalid query time", status_code=400)
     except pytz.exceptinos.AmbiguousTimeError:
-        print('pytz.exceptions.AmbiguousTimeError: %s' % dt)
+        app.logger.error('pytz.exceptions.AmbiguousTimeError: %s' % dt)
         raise InvalidRequest("Invalid query time", status_code=400)
     except pytz.exceptions.InvalidTimeError:
-        print('pytz.exceptions.InvalidTimeError: %s' % dt)
+        app.logger.error('pytz.exceptions.InvalidTimeError: %s' % dt)
         raise InvalidRequest("Invalid query time", status_code=400)
     except pytz.exceptions.NonExistentTimeError:
-        print('pytz.exceptions.NonExistentTimeError: %s' % dt)
+        app.logger.error('pytz.exceptions.NonExistentTimeError: %s' % dt)
         raise InvalidRequest("Invalid query time", status_code=400)
     except pytz.exceptions.UnknownTimeZoneError:
-        print('pytz.exceptions.UnknownTimeZoneError: %s' % dt)
+        app.logger.error('pytz.exceptions.UnknownTimeZoneError: %s' % dt)
         raise InvalidRequest("Invalid query time", status_code=400)
 
 
 @app.route("/", methods=methods)
 @cross_origin()
 def hello_world():
-    print request.headers, request.get_json()
+    app.logger.info(request.headers)
+    app.logger.info(request.get_json())
+
     return "pvaccess python Grafana datasource"
 
 
 @app.route("/search", methods=methods)
 @cross_origin()
 def find_metrics():
-    print request.headers, request.get_json()
+    app.logger.info(request.headers)
+    app.logger.info(request.get_json())
+
     req = request.get_json()
 
     try:
@@ -65,7 +69,9 @@ def find_metrics():
 @app.route("/query", methods=methods)
 @cross_origin(max_age=600)
 def query_metrics():
-    print request.headers, request.get_json()
+    app.logger.info(request.headers)
+    app.logger.info(request.get_json())
+
     req = request.get_json()
 
     try:
@@ -102,7 +108,9 @@ def query_metrics():
 @app.route("/annotations", methods=methods)
 @cross_origin(max_age=600)
 def query_annotations():
-    print request.headers, request.get_json()
+    app.logger.info(request.headers)
+    app.logger.info(request.get_json())
+
     req = request.get_json()
 
     try:
