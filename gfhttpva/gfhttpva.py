@@ -27,10 +27,12 @@ def iso_to_dt(iso_str):
         current_app.logger.error('pytz.exceptions.InvalidTimeError: %s' % dt)
         raise InvalidRequest("Invalid query time", status_code=400)
     except pytz.exceptions.NonExistentTimeError:
-        current_app.logger.error('pytz.exceptions.NonExistentTimeError: %s' % dt)
+        current_app.logger.error('pytz.exceptions.NonExistentTimeError: %s'
+                                 % dt)
         raise InvalidRequest("Invalid query time", status_code=400)
     except pytz.exceptions.UnknownTimeZoneError:
-        current_app.logger.error('pytz.exceptions.UnknownTimeZoneError: %s' % dt)
+        current_app.logger.error('pytz.exceptions.UnknownTimeZoneError: %s'
+                                 % dt)
         raise InvalidRequest("Invalid query time", status_code=400)
 
 
