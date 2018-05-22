@@ -11,14 +11,18 @@ Before install this package you need to install [PvaPy](https://github.com/epics
 After install PvaPy, clone this package and install other requirements.
 
 ```bash
-$ pip install -r requirements.txt
+# clone the repository
+git clone https://github.com/sasaki77/gfhttpva
+cd gfhttpva
+# install gfhttpva
+pip install -e .
 ```
 
 ## Usage
 
 Simple usage is below.
 ```bash
-$ export FLASK_APP=gfhttpva.py
+$ export FLASK_APP=gfhttpva
 $ export FLASK_DEBUG=1
 $ flask run --port=3003
 ```

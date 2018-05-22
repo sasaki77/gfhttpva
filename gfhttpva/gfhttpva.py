@@ -2,17 +2,14 @@ from datetime import datetime
 
 import pytz
 
-from flask import Flask, request, jsonify, json, abort
-from flask_cors import CORS, cross_origin
+from flask import Blueprint, current_app, request, jsonify, json
+from flask_cors import cross_origin
 
 from pvaapi import valget, valget_table, get_annotation, get_search
 from exception import InvalidRequest
 
-app = Flask(__name__)
 
-cors = CORS(app)
-app.config["CORS_HEADERS"] = "Content-Type"
-
+gfhttpva = Blueprint("gfhttpva", __name__)
 methods = ("GET", "POST")
 
 
@@ -24,33 +21,33 @@ def iso_to_dt(iso_str):
     except ValueError:
         raise InvalidRequest("Invalid query time", status_code=400)
     except pytz.exceptinos.AmbiguousTimeError:
-        app.logger.error('pytz.exceptions.AmbiguousTimeError: %s' % dt)
+        current_app.logger.error('pytz.exceptions.AmbiguousTimeError: %s' % dt)
         raise InvalidRequest("Invalid query time", status_code=400)
     except pytz.exceptions.InvalidTimeError:
-        app.logger.error('pytz.exceptions.InvalidTimeError: %s' % dt)
+        current_app.logger.error('pytz.exceptions.InvalidTimeError: %s' % dt)
         raise InvalidRequest("Invalid query time", status_code=400)
     except pytz.exceptions.NonExistentTimeError:
-        app.logger.error('pytz.exceptions.NonExistentTimeError: %s' % dt)
+        current_app.logger.error('pytz.exceptions.NonExistentTimeError: %s' % dt)
         raise InvalidRequest("Invalid query time", status_code=400)
     except pytz.exceptions.UnknownTimeZoneError:
-        app.logger.error('pytz.exceptions.UnknownTimeZoneError: %s' % dt)
+        current_app.logger.error('pytz.exceptions.UnknownTimeZoneError: %s' % dt)
         raise InvalidRequest("Invalid query time", status_code=400)
 
 
-@app.route("/", methods=methods)
+@gfhttpva.route("/", methods=methods)
 @cross_origin()
 def hello_world():
-    app.logger.info(request.headers)
-    app.logger.info(request.get_json())
+    current_app.logger.info(request.headers)
+    current_app.logger.info(request.get_json())
 
     return "pvaccess python Grafana datasource"
 
 
-@app.route("/search", methods=methods)
+@gfhttpva.route("/search", methods=methods)
 @cross_origin()
 def find_metrics():
-    app.logger.info(request.headers)
-    app.logger.info(request.get_json())
+    current_app.logger.info(request.headers)
+    current_app.logger.info(request.get_json())
 
     req = request.get_json()
 
@@ -66,11 +63,11 @@ def find_metrics():
     return jsonify([res])
 
 
-@app.route("/query", methods=methods)
+@gfhttpva.route("/query", methods=methods)
 @cross_origin(max_age=600)
 def query_metrics():
-    app.logger.info(request.headers)
-    app.logger.info(request.get_json())
+    current_app.logger.info(request.headers)
+    current_app.logger.info(request.get_json())
 
     req = request.get_json()
 
@@ -105,11 +102,11 @@ def query_metrics():
     return jsonify(res)
 
 
-@app.route("/annotations", methods=methods)
+@gfhttpva.route("/annotations", methods=methods)
 @cross_origin(max_age=600)
 def query_annotations():
-    app.logger.info(request.headers)
-    app.logger.info(request.get_json())
+    current_app.logger.info(request.headers)
+    current_app.logger.info(request.get_json())
 
     req = request.get_json()
 
@@ -128,12 +125,8 @@ def query_annotations():
     return jsonify(res)
 
 
-@app.errorhandler(InvalidRequest)
+@gfhttpva.errorhandler(InvalidRequest)
 def handle_invalid_usage(error):
     response = jsonify(error.to_dict())
     response.status_code = error.status_code
     return response
-
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=3004, debug=True)
