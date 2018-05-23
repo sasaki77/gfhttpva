@@ -10,10 +10,15 @@ from .config import DefaultConfig
 from .gfhttpva import gfhttpva
 
 
-def create_app():
+def create_app(config_obj="gfhttpva.config.DefaultConfig"):
+    """
+    Arguments:
+    object_name: the python path of the config object,
+                 e.g. gfhttpva.config.DefaultConfig
+    """
     app = Flask(__name__)
 
-    app.config.from_object(DefaultConfig)
+    app.config.from_object(config_obj)
     if "GFHTTPVA_CONFIG" in os.environ:
         app.config.from_envvar('GFHTTPVA_CONFIG')
 
