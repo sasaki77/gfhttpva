@@ -6,9 +6,9 @@ It receives http requests from generalpvaccess-datasource and retrieves data fro
 
 ## Installing
 
-Before install this package you need to install [PvaPy](https://github.com/epics-base/pvaPy).
+Before install this package you need to install [PvaPy](https://github.com/epics-base/pvaPy) (> 1.1).
 
-After install PvaPy, clone this package and install other requirements.
+After install PvaPy, clone this package and install it.
 
 ```bash
 # clone the repository
@@ -22,16 +22,21 @@ pip install -e .
 
 Simple usage is below.
 ```bash
-$ export FLASK_APP=gfhttpva
-$ export FLASK_DEBUG=1
-$ flask run --port=3003
+export FLASK_APP=gfhttpva
+export FLASK_ENV=development
+export GFHTTPVA_CONFIG=/absolute/path/to/config/file
+flask run --port=3003
 ```
 
 See [here](http://flask.pocoo.org/) for more flask information.
 
+## Configuration
+
+Refer config file example [gfhttpva.cfg](gfhttpva.cfg).
+
 ## pvAccess RPC Server Implementation
 
-pvAccess Server should implement 3 URIs:
+pvAccess Server should implement 3 channels:
 
 - `$(prefix):get` should return metrics or table based on input
 - `$(prefix):annotation` should return annotations
