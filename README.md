@@ -142,4 +142,5 @@ Run with coverage:
 ```bash
 pip install pytest pytest-cov
 pytest --cov gfhttpva
+coverage report -m
 ```
