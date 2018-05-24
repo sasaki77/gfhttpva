@@ -62,7 +62,7 @@ def find_metrics():
 
     res = get_search(prefix, entity, name)
 
-    return jsonify([res])
+    return jsonify(res)
 
 
 @gfhttpva.route("/query", methods=methods)

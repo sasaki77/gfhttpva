@@ -123,3 +123,17 @@ Example response
 epics:nt/NTScalarArray:1.0 
     string[] value [sine,string]
 ```
+
+## Test
+
+Run without coverage:
+```bash
+pip install pytest
+pytest
+```
+
+Run with coverage:
+```bash
+pip install pytest pytest-cov
+pytest --cov gfhttpva
+```
