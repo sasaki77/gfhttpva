@@ -141,7 +141,7 @@ def get_search(prefix, entity, name):
 
     try:
         res = response.getScalarArray("value")
-    except (FieldNotFound, InvalidRequest):
+    except (pva.FieldNotFound, pva.InvalidRequest):
         current_app.logger.error("get_search: response get error")
         raise InvalidRequest("RPC returned value is invalid", status_code=400)
 
