@@ -74,7 +74,7 @@ def test_query_timeserie_error(client):
                        ]
     rv = client.post("/query", json=query)
     json_data = rv.get_json()
-    res =  {'message': 'RPC returned value is invalid'}
+    res = {'message': 'RPC returned value is invalid'}
     assert json_data == res
     assert rv.status_code == 400
 
@@ -118,7 +118,7 @@ def test_query_table_error(client):
                        ]
     rv = client.post("/query", json=query)
     json_data = rv.get_json()
-    res =  {'message': 'RPC returned labels is invalid'}
+    res = {'message': 'RPC returned labels is invalid'}
     assert json_data == res
 
 
@@ -127,7 +127,7 @@ def test_query_invalid_time(client):
     query["range"]["from"] = "2018-13-01T00:00:00:.000Z"
     rv = client.post("/query", json=query)
     json_data = rv.get_json()
-    res =  {'message': 'Invalid query time'}
+    res = {'message': 'Invalid query time'}
     assert json_data == res
 
 
@@ -136,7 +136,7 @@ def test_query_invalid_query_target(client):
     del query["targets"]
     rv = client.post("/query", json=query)
     json_data = rv.get_json()
-    res =  {'message': 'Invalid query'}
+    res = {'message': 'Invalid query'}
     assert json_data == res
 
 
@@ -145,7 +145,7 @@ def test_query_invalid_query_type(client):
     del query["targets"][0]["type"]
     rv = client.post("/query", json=query)
     json_data = rv.get_json()
-    res =  {'message': 'Invalid query'}
+    res = {'message': 'Invalid query'}
     assert json_data == res
 
 

@@ -50,7 +50,7 @@ def test_annottaion_error(client):
     query["annotation"]["entity"] = "error"
     rv = client.post("/annotations", json=query)
     json_data = rv.get_json()
-    res =  {'message': 'RPC returned value is invalid'}
+    res = {'message': 'RPC returned value is invalid'}
     assert json_data == res
 
 
@@ -59,5 +59,5 @@ def test_annotation_invalid_query(client):
     del query["annotation"]
     rv = client.post("/annotations", json=query)
     json_data = rv.get_json()
-    res =  {'message': 'Invalid query'}
+    res = {'message': 'Invalid query'}
     assert json_data == res

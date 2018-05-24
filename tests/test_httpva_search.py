@@ -29,13 +29,13 @@ def test_search_error(client):
 
     rv = client.post("/search", json=query)
     json_data = rv.get_json()
-    res =  {'message': 'RPC returned value is invalid'}
+    res = {'message': 'RPC returned value is invalid'}
     assert json_data == res
 
 
 def test_search_invalid_query(client):
-    query = {"prefix": "ET_SASAKI:GFHTTPVA:TEST:"} 
+    query = {"prefix": "ET_SASAKI:GFHTTPVA:TEST:"}
     rv = client.post("/search", json=query)
     json_data = rv.get_json()
-    res =  {'message': 'Search request invalid'}
+    res = {'message': 'Search request invalid'}
     assert json_data == res
