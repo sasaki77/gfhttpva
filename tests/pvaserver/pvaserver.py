@@ -65,8 +65,8 @@ class PvaServer():
         val_type = TYPES.get(entity, pva.LONG)
     
         vals = OrderedDict([("column0", [val_type]),
-                            ("column1", [pva.DOUBLE]),
-                            ("column2", [pva.DOUBLE])])
+                            ("column1", [pva.ULONG]),
+                            ("column2", [pva.ULONG])])
         table = pva.PvObject(OrderedDict({"labels": [pva.STRING], "value": vals}),
                              "epics:nt/NTTable:1.0")
         table.setScalarArray("labels", ["value", "seconds", "nanoseconds"])
@@ -88,8 +88,8 @@ class PvaServer():
                 "2016-04-04T08:10:16"]
     
         vals = OrderedDict([("column0", [pva.DOUBLE]),
-                            ("column1", [pva.DOUBLE]),
-                            ("column2", [pva.DOUBLE]),
+                            ("column1", [pva.ULONG]),
+                            ("column2", [pva.ULONG]),
                             ("column3", [pva.ULONG]),
                             ("column4", [pva.ULONG]),
                             ("column5", [pva.STRING])])
