@@ -1,6 +1,9 @@
 import os
 import sys
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-import gfhttpva
 from gfhttpva import create_app
+import gfhttpva
+
+sys.path.insert(0,
+                os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+                )
