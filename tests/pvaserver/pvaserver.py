@@ -42,6 +42,8 @@ class PvaServer():
 
         if entity == "table":
             table = self.get_table(entity, str_sec, end_sec, param1)
+        elif entity == "error":
+            table = pva.PvInt(1000)
         else:
             table = self.get_timesrie(entity, str_sec, end_sec, param1)
     
@@ -82,21 +84,25 @@ class PvaServer():
         nano = [16235768, 164235245, 164235256]
         status = [0, 0, 1]
         severity = [0, 0, 3]
+        time = ["2016-04-04T08:10:14", "2016-04-04T08:10:15",
+                "2016-04-04T08:10:16"]
     
         vals = OrderedDict([("column0", [pva.DOUBLE]),
                             ("column1", [pva.DOUBLE]),
                             ("column2", [pva.DOUBLE]),
                             ("column3", [pva.ULONG]),
-                            ("column4", [pva.ULONG])])
+                            ("column4", [pva.ULONG]),
+                            ("column5", [pva.STRING])])
         table = pva.PvObject(OrderedDict({"labels": [pva.STRING], "value": vals}),
                              "epics:nt/NTTable:1.0")
         table.setScalarArray("labels", ["value", "seconds", "nanoseconds",
-                                        "status", "severity"])
+                                        "status", "severity", "time"])
         table.setStructure("value", OrderedDict({"column0": value,
                                                  "column1": seconds,
                                                  "column2": nano,
                                                  "column3": status,
-                                                 "column4": severity}))
+                                                 "column4": severity,
+                                                 "column5": time}))
 
         return table
     
@@ -107,6 +113,9 @@ class PvaServer():
             name = x.getString("name")
         except (pva.FieldNotFound, pva.InvalidRequest):
             return pva.PvString("error")
+
+        if name == "error":
+            return pva.PvInt(1000)
     
         org_value = ENTITIES if str(name) == "entity" else []
     
@@ -125,6 +134,9 @@ class PvaServer():
             endtime = x.getString("endtime")
         except (pva.FieldNotFound, pva.InvalidRequest):
             return pva.PvString("error")
+
+        if entity == "error":
+            return pva.PvInt(1000)
     
         str_sec = self.is_to_unixtime_seconds(starttime)
         end_sec = self.is_to_unixtime_seconds(endtime)
