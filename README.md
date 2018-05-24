@@ -126,6 +126,12 @@ epics:nt/NTScalarArray:1.0
 
 ## Test
 
+Before runnging tests, test pvAccess RPC server must be running.
+
+```bash
+python tests/pvaserver/run.py
+```
+
 Run without coverage:
 ```bash
 pip install pytest
