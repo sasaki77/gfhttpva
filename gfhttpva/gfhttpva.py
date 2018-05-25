@@ -23,7 +23,7 @@ def iso_to_dt(iso_str):
         return dt.strftime("%Y-%m-%dT%H:%M:%S")
     except ValueError:
         raise InvalidRequest("Invalid query time", status_code=400)
-    except pytz.exceptinos.AmbiguousTimeError:
+    except pytz.exceptions.AmbiguousTimeError:
         current_app.logger.error('pytz.exceptions.AmbiguousTimeError: %s' % dt)
         raise InvalidRequest("Invalid query time", status_code=400)
     except pytz.exceptions.InvalidTimeError:
