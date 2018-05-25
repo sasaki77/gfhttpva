@@ -7,16 +7,19 @@ from flask_cors import cross_origin
 
 from pvaapi import valget, valget_table, get_annotation, get_search
 from exception import InvalidRequest
+from timezone import timezone
 
 
 gfhttpva = Blueprint("gfhttpva", __name__)
 methods = ("GET", "POST")
+TIMEZONE = timezone()
 
 
 def iso_to_dt(iso_str):
     try:
         dt = datetime.strptime(iso_str, "%Y-%m-%dT%H:%M:%S")
-        dt = pytz.utc.localize(dt).astimezone(pytz.timezone("Asia/Tokyo"))
+        tz = TIMEZONE.get_tz()
+        dt = pytz.utc.localize(dt).astimezone(tz)
         return dt.strftime("%Y-%m-%dT%H:%M:%S")
     except ValueError:
         raise InvalidRequest("Invalid query time", status_code=400)

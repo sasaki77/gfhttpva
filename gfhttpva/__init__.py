@@ -7,7 +7,7 @@ from flask.logging import default_handler
 from flask_cors import CORS
 
 from .config import DefaultConfig
-from .gfhttpva import gfhttpva
+from .gfhttpva import gfhttpva, TIMEZONE
 
 
 def create_app(config_obj="gfhttpva.config.DefaultConfig"):
@@ -35,6 +35,14 @@ def create_app(config_obj="gfhttpva.config.DefaultConfig"):
                         '%(module)s: %(message)s')
         rhandler.setFormatter(fmt)
         app.logger.addHandler(rhandler)
+
+    # settings for timezone
+    tz = app.config["TIMEZONE"]
+    tz_success = TIMEZONE.set_tz(tz)
+    if not tz_success:
+        app.logger.error("Specified TIMEZONE is invalid. "
+                         "Set TIMEZONE as UTC.")
+        TIMEZONE.set_tz("UTC")
 
     app.register_blueprint(gfhttpva)
 
