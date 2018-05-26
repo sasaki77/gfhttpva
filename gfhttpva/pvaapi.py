@@ -5,7 +5,7 @@ from exception import InvalidRequest
 
 from flask import current_app
 
-TIMEOUT = 5
+TIMEOUT = 1
 
 
 def create_request(entity, params, starttime, endtime):

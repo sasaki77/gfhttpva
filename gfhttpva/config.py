@@ -3,6 +3,7 @@ class DefaultConfig(object):
     LOG_MAXBYTE = 80000
     LOG_COUNT = 1
     TIMEZONE = "Asia/Tokyo"
+    PVA_RPC_TIMEOUT = 5
 
 
 class TestingConfig(DefaultConfig):
