@@ -2,7 +2,7 @@ from .context import gfhttpva
 
 
 def test_search(client):
-    query = {"prefix": "ET_SASAKI:GFHTTPVA:TEST:",
+    query = {"ch": "ET_SASAKI:GFHTTPVA:TEST:search",
              "target": "", "name": "entity"}
 
     rv = client.post("/search", json=query)
@@ -24,7 +24,7 @@ def test_search(client):
 
 
 def test_search_error(client):
-    query = {"prefix": "ET_SASAKI:GFHTTPVA:TEST:",
+    query = {"ch": "ET_SASAKI:GFHTTPVA:TEST:search",
              "target": "", "name": "error"}
 
     rv = client.post("/search", json=query)
@@ -34,8 +34,17 @@ def test_search_error(client):
 
 
 def test_search_invalid_query(client):
-    query = {"prefix": "ET_SASAKI:GFHTTPVA:TEST:"}
+    query = {"ch": "ET_SASAKI:GFHTTPVA:TEST:search"}
     rv = client.post("/search", json=query)
     json_data = rv.get_json()
     res = {'message': 'Search request invalid'}
+    assert json_data == res
+
+
+def test_search_invalid_query(client):
+    query = {"ch": "",
+             "target": "", "name": "entity"}
+    rv = client.post("/search", json=query)
+    json_data = rv.get_json()
+    res = {'message': 'RPC ch name is invalid'}
     assert json_data == res

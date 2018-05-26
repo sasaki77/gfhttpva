@@ -57,13 +57,13 @@ def find_metrics():
     req = request.get_json()
 
     try:
-        prefix = req["prefix"]
+        ch_name = req["ch"]
         entity = req["target"]
         name = req["name"] if "name" in req else "entity"
     except KeyError:
         raise InvalidRequest("Search request invalid", status_code=400)
 
-    res = get_search(prefix, entity, name)
+    res = get_search(ch_name, entity, name)
 
     return jsonify(res)
 
@@ -77,7 +77,7 @@ def query_metrics():
     req = request.get_json()
 
     try:
-        prefix = req["jsonData"]["prefix"]
+        ch_name = req["jsonData"]["ch"]
         starttime = iso_to_dt(req["range"]["from"].split(".")[0])
         endtime = iso_to_dt(req["range"]["to"].split(".")[0])
         targets = req["targets"]
@@ -95,11 +95,11 @@ def query_metrics():
             raise InvalidRequest("Invalid query", status_code=400)
 
         if ttype == "table":
-            table = valget_table(prefix, entity,
+            table = valget_table(ch_name, entity,
                                  params, starttime, endtime)
             return jsonify(table)
 
-        datapoints = valget(prefix, entity,
+        datapoints = valget(ch_name, entity,
                             params, starttime, endtime)
         res_frame = {"target": entity, "datapoints": datapoints}
         res.append(res_frame)
@@ -117,7 +117,7 @@ def query_annotations():
 
     try:
         ann = req["annotation"]
-        prefix = ann["prefix"]
+        ch_name = ann["ch"]
         entity = ann["entity"]
         starttime = iso_to_dt(req["range"]["from"].split(".")[0])
         endtime = iso_to_dt(req["range"]["to"].split(".")[0])
@@ -125,7 +125,7 @@ def query_annotations():
     except (KeyError, IndexError) as e:
         raise InvalidRequest("Invalid query", status_code=400)
 
-    res = get_annotation(prefix, ann, entity,
+    res = get_annotation(ch_name, ann, entity,
                          params, starttime, endtime)
     return jsonify(res)
 

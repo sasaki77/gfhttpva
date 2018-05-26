@@ -16,7 +16,7 @@ def get_annotation_query():
                u"datasource": u"bar datasource",
                u"iconColor": u"rgba(255, 96, 96, 1)",
                u"enable": True,
-               u"prefix": u"ET_SASAKI:GFHTTPVA:TEST:",
+               u"ch": u"ET_SASAKI:GFHTTPVA:TEST:annotation",
                u"entity": u"foobar"
              }
            }
@@ -28,20 +28,24 @@ def test_annottaion(client):
     json_data = rv.get_json()
     res = [
       {
-        u"annotation": str(query["annotation"]),
+        u"annotation": query["annotation"],
         u"time": 1514775600000,
         u"title": query["annotation"]["entity"],
         u"tags": [u"test1", u"test2"],
         u"text": u"test text"
       },
       {
-        u"annotation": str(query["annotation"]),
+        u"annotation": query["annotation"],
         u"time": 1514786400000,
         u"title": query["annotation"]["entity"]+"2",
         u"tags": [u"test1"],
         u"text": u"test text2"
       }
     ]
+
+    for data in json_data:
+        data["annotation"] = eval(data["annotation"])
+
     assert json_data == res
 
 
@@ -60,4 +64,13 @@ def test_annotation_invalid_query(client):
     rv = client.post("/annotations", json=query)
     json_data = rv.get_json()
     res = {'message': 'Invalid query'}
+    assert json_data == res
+
+
+def test_annotation_empty_ch(client):
+    query = get_annotation_query()
+    query["annotation"]["ch"] = ""
+    rv = client.post("/annotations", json=query)
+    json_data = rv.get_json()
+    res = {'message': 'RPC ch name is invalid'}
     assert json_data == res
