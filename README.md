@@ -38,11 +38,11 @@ Refer config file example [gfhttpva.cfg](gfhttpva.cfg).
 
 pvAccess Server should implement 3 channels:
 
-- `$(prefix):get` should return metrics or table based on input
-- `$(prefix):annotation` should return annotations
-- `$(prefix):search` used by the find metric options on the query tab in Grafana panels (optional)
+- `get RPC` should return metrics or table based on input
+- `annotation RPC` should return annotations
+- `search RPC` used by the find metric options on the query tab in Grafana panels (optional)
 
-`$(prefix)` is passed from generalpvaccess-datasource.
+Each RPC channel names are passed from generalpvaccess-datasource.
 
 ### Example pvAccess server implementations
 

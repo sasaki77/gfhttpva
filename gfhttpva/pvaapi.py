@@ -43,8 +43,15 @@ def get_value_from_table(table, key):
         raise InvalidRequest("RPC returned value is invalid", status_code=400)
 
 
-def valget(prefix, entity, params, starttime, endtime):
-    rpc = pva.RpcClient(str(prefix) + "get")
+def check_ch_name(ch_name):
+    if not ch_name:
+        current_app.logger.error("valget: Empty ch name")
+        raise InvalidRequest("RPC ch name is invalid", status_code=400)
+
+
+def valget(ch_name, entity, params, starttime, endtime):
+    check_ch_name(ch_name)
+    rpc = pva.RpcClient(str(ch_name))
 
     request = create_request(entity, params, starttime, endtime)
     response = rpc.invoke(request, TIMEOUT)
@@ -64,8 +71,9 @@ def valget(prefix, entity, params, starttime, endtime):
     return zip(list(value), time_ms)
 
 
-def valget_table(prefix, entity, params, starttime, endtime):
-    rpc = pva.RpcClient(str(prefix) + "get")
+def valget_table(ch_name, entity, params, starttime, endtime):
+    check_ch_name(ch_name)
+    rpc = pva.RpcClient(str(ch_name))
 
     request = create_request(entity, params, starttime, endtime)
     response = rpc.invoke(request, TIMEOUT)
@@ -100,8 +108,9 @@ def valget_table(prefix, entity, params, starttime, endtime):
     return table
 
 
-def get_annotation(prefix, annotation, entity, params, starttime, endtime):
-    rpc = pva.RpcClient(str(prefix) + "annotation")
+def get_annotation(ch_name, annotation, entity, params, starttime, endtime):
+    check_ch_name(ch_name)
+    rpc = pva.RpcClient(str(ch_name))
 
     request = create_request(entity, params, starttime, endtime)
     response = rpc.invoke(request, TIMEOUT)
@@ -130,8 +139,9 @@ def get_annotation(prefix, annotation, entity, params, starttime, endtime):
     return annotations
 
 
-def get_search(prefix, entity, name):
-    rpc = pva.RpcClient(str(prefix) + "search")
+def get_search(ch_name, entity, name):
+    check_ch_name(ch_name)
+    rpc = pva.RpcClient(str(ch_name))
 
     request = create_search_request(entity, name)
     response = rpc.invoke(request, TIMEOUT)

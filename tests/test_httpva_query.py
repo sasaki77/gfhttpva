@@ -20,7 +20,7 @@ def get_query():
              '"type": "timeserie", "params": {"param1": 0}},'
              "maxDataPoints": 399,
              "jsonData": {
-                "prefix": "ET_SASAKI:GFHTTPVA:TEST:"
+                "ch": "ET_SASAKI:GFHTTPVA:TEST:get"
              }
            }
 
@@ -164,4 +164,13 @@ def test_query_no_target(client):
               ],
             }
           ]
+    assert json_data == res
+
+
+def test_query_empyt_ch(client):
+    query = get_query()
+    query["jsonData"]["ch"] = ""
+    rv = client.post("/query", json=query)
+    json_data = rv.get_json()
+    res = {'message': 'RPC ch name is invalid'}
     assert json_data == res
