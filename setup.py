@@ -8,7 +8,7 @@ with open('LICENSE') as f:
 
 setup(
     name='gfhttpva',
-    version='0.0.1',
+    version='0.1.0',
     url='https://github.com/sasaki77/gfhttpva',
     license=license,
     maintainer='Shinya Sasaki',
