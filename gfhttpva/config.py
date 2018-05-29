@@ -8,3 +8,4 @@ class DefaultConfig(object):
 
 class TestingConfig(DefaultConfig):
     TESTING = True
+    PVA_RPC_TIMEOUT = 1

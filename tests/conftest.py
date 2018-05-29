@@ -5,7 +5,7 @@ from .context import gfhttpva
 
 @pytest.fixture
 def app():
-    app = gfhttpva.create_app()
+    app = gfhttpva.create_app("gfhttpva.config.TestingConfig")
     return app
 
 
