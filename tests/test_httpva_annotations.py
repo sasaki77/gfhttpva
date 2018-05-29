@@ -74,3 +74,12 @@ def test_annotation_empty_ch(client):
     json_data = rv.get_json()
     res = {'message': 'RPC ch name is invalid'}
     assert json_data == res
+
+
+def test_annotation_not_exist_ch(client):
+    query = get_annotation_query()
+    query["annotation"]["ch"] = "NOT:EXIST:CH"
+    rv = client.post("/annotations", json=query)
+    json_data = rv.get_json()
+    res = {'message': 'connection timeout'}
+    assert json_data == res

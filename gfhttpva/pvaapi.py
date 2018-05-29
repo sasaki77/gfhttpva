@@ -54,7 +54,10 @@ def valget(ch_name, entity, params, starttime, endtime):
     rpc = pva.RpcClient(str(ch_name))
 
     request = create_request(entity, params, starttime, endtime)
-    response = rpc.invoke(request, TIMEOUT)
+    try:
+        response = rpc.invoke(request, TIMEOUT)
+    except pva.PvaException as e:
+        raise InvalidRequest(e.message, status_code=400)
 
     if hasattr(response, "useNumPyArrays"):
         response.useNumPyArrays = False
@@ -76,7 +79,10 @@ def valget_table(ch_name, entity, params, starttime, endtime):
     rpc = pva.RpcClient(str(ch_name))
 
     request = create_request(entity, params, starttime, endtime)
-    response = rpc.invoke(request, TIMEOUT)
+    try:
+        response = rpc.invoke(request, TIMEOUT)
+    except pva.PvaException as e:
+        raise InvalidRequest(e.message, status_code=400)
 
     if hasattr(response, "useNumPyArrays"):
         response.useNumPyArrays = False
@@ -113,7 +119,10 @@ def get_annotation(ch_name, annotation, entity, params, starttime, endtime):
     rpc = pva.RpcClient(str(ch_name))
 
     request = create_request(entity, params, starttime, endtime)
-    response = rpc.invoke(request, TIMEOUT)
+    try:
+        response = rpc.invoke(request, TIMEOUT)
+    except pva.PvaException as e:
+        raise InvalidRequest(e.message, status_code=400)
 
     if hasattr(response, "useNumPyArrays"):
         response.useNumPyArrays = False
@@ -144,7 +153,10 @@ def get_search(ch_name, entity, name):
     rpc = pva.RpcClient(str(ch_name))
 
     request = create_search_request(entity, name)
-    response = rpc.invoke(request, TIMEOUT)
+    try:
+        response = rpc.invoke(request, TIMEOUT)
+    except pva.PvaException as e:
+        raise InvalidRequest(e.message, status_code=400)
 
     if hasattr(response, "useNumPyArrays"):
         response.useNumPyArrays = False

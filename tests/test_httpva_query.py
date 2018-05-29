@@ -174,3 +174,22 @@ def test_query_empyt_ch(client):
     json_data = rv.get_json()
     res = {'message': 'RPC ch name is invalid'}
     assert json_data == res
+
+
+def test_query_not_exist_ch(client):
+    query = get_query()
+    query["jsonData"]["ch"] = "NOT:EXIST:CH"
+    rv = client.post("/query", json=query)
+    json_data = rv.get_json()
+    res = {'message': 'connection timeout'}
+    assert json_data == res
+
+
+def test_query_not_exist_ch_table(client):
+    query = get_query()
+    query["jsonData"]["ch"] = "NOT:EXIST:CH"
+    query["targets"] = [{"target": "table", "refId": "B", "type": "table"}]
+    rv = client.post("/query", json=query)
+    json_data = rv.get_json()
+    res = {'message': 'connection timeout'}
+    assert json_data == res

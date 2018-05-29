@@ -41,10 +41,19 @@ def test_search_invalid_query(client):
     assert json_data == res
 
 
-def test_search_invalid_query(client):
+def test_search_empty_ch(client):
     query = {"ch": "",
              "target": "", "name": "entity"}
     rv = client.post("/search", json=query)
     json_data = rv.get_json()
     res = {'message': 'RPC ch name is invalid'}
+    assert json_data == res
+
+
+def test_search_not_exist_ch(client):
+    query = {"ch": "NOT:EXIST:CH",
+             "target": "", "name": "entity"}
+    rv = client.post("/search", json=query)
+    json_data = rv.get_json()
+    res = {'message': 'connection timeout'}
     assert json_data == res
