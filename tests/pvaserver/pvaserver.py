@@ -13,6 +13,7 @@ import pvaccess as pva
 ENTITIES = ["long", "float", "string", "str"]
 TYPES = {"long": pva.LONG, "float": pva.FLOAT, "string": pva.STRING}
 
+
 class PvaServer():
 
     def __init__(self, prefix=""):
@@ -34,9 +35,9 @@ class PvaServer():
             endtime = x.getString("endtime")
         except (pva.FieldNotFound, pva.InvalidRequest):
             return pva.PvString("error")
-    
+
         param1 = int(x.getString("param1")) if x.hasField("param1") else 0
-    
+
         str_sec = self.is_to_unixtime_seconds(starttime)
         end_sec = self.is_to_unixtime_seconds(endtime)
 
@@ -46,7 +47,7 @@ class PvaServer():
             table = pva.PvInt(1000)
         else:
             table = self.get_timesrie(entity, str_sec, end_sec, param1)
-    
+
         return table
 
     def get_timesrie(self, entity, str_sec, end_sec, param1):
@@ -63,11 +64,13 @@ class PvaServer():
             seconds.append(str_sec + i*interval)
             nano.append(0)
         val_type = TYPES.get(entity, pva.LONG)
-    
+
         vals = OrderedDict([("column0", [val_type]),
                             ("column1", [pva.ULONG]),
                             ("column2", [pva.ULONG])])
-        table = pva.PvObject(OrderedDict({"labels": [pva.STRING], "value": vals}),
+        table = pva.PvObject(OrderedDict({"labels": [pva.STRING],
+                                          "value": vals}
+                                         ),
                              "epics:nt/NTTable:1.0")
         table.setScalarArray("labels", ["value", "seconds", "nanoseconds"])
         table.setStructure("value", OrderedDict({"column0": value,
@@ -86,14 +89,16 @@ class PvaServer():
         severity = [0, 0, 3]
         time = ["2016-04-04T08:10:14", "2016-04-04T08:10:15",
                 "2016-04-04T08:10:16"]
-    
+
         vals = OrderedDict([("column0", [pva.DOUBLE]),
                             ("column1", [pva.ULONG]),
                             ("column2", [pva.ULONG]),
                             ("column3", [pva.ULONG]),
                             ("column4", [pva.ULONG]),
                             ("column5", [pva.STRING])])
-        table = pva.PvObject(OrderedDict({"labels": [pva.STRING], "value": vals}),
+        table = pva.PvObject(OrderedDict({"labels": [pva.STRING],
+                                          "value": vals}
+                                         ),
                              "epics:nt/NTTable:1.0")
         table.setScalarArray("labels", ["value", "seconds", "nanoseconds",
                                         "status", "severity", "time"])
@@ -105,8 +110,7 @@ class PvaServer():
                                                  "column5": time}))
 
         return table
-    
-    
+
     def search(self, x):
         try:
             query = x.getString("entity")
@@ -116,17 +120,17 @@ class PvaServer():
 
         if name == "error":
             return pva.PvInt(1000)
-    
+
         org_value = ENTITIES if str(name) == "entity" else []
-    
+
         value = [val for val in org_value if val.startswith(query)]
-    
-        pv = pva.PvObject({"value": [pva.STRING]}, "epics:nt/NTScalarArray:1.0")
+
+        pv = pva.PvObject({"value": [pva.STRING]},
+                          "epics:nt/NTScalarArray:1.0")
         pv["value"] = value
-    
+
         return pv
-    
-    
+
     def annotation(self, x):
         try:
             entity = x.getString("entity")
@@ -137,27 +141,29 @@ class PvaServer():
 
         if entity == "error":
             return pva.PvInt(1000)
-    
+
         str_sec = self.is_to_unixtime_seconds(starttime)
         end_sec = self.is_to_unixtime_seconds(endtime)
-    
+
         time = [(int(end_sec) + int(str_sec))//2*1000, end_sec*1000]
         title = [entity, entity+"2"]
         tags = ["test1 test2", "test1"]
         text = ["test text", "test text2"]
-    
+
         vals = OrderedDict([("column0", [pva.ULONG]),
                             ("column1", [pva.STRING]),
                             ("column2", [pva.STRING]),
                             ("column3", [pva.STRING])])
-        table = pva.PvObject(OrderedDict({"labels": [pva.STRING], "value": vals}),
+        table = pva.PvObject(OrderedDict({"labels": [pva.STRING],
+                                          "value": vals}
+                                         ),
                              "epics:nt/NTTable:1.0")
         table.setScalarArray("labels", ["time", "title", "tags", "text"])
         table.setStructure("value", OrderedDict({"column0": time,
                                                  "column1": title,
                                                  "column2": tags,
                                                  "column3": text}))
-    
+
         return table
 
     def is_to_unixtime_seconds(self, iso_str):
