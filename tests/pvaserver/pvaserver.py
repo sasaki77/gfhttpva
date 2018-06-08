@@ -21,6 +21,8 @@ class PvaServer():
         self.srv.registerService(prefix + "get", self.get)
         self.srv.registerService(prefix + "search", self.search)
         self.srv.registerService(prefix + "annotation", self.annotation)
+        self.srv.registerService(prefix + "get_nturi_style",
+                                 self.get_nturi_style)
         self.srv.registerService(prefix + "get_consistent_field",
                                  self.get_consistent_field)
         self.srv.registerService(prefix + "get_inconsistent_field",
@@ -116,6 +118,29 @@ class PvaServer():
                                                  "column3": status,
                                                  "column4": severity,
                                                  "column5": time}))
+
+        return table
+
+    def get_nturi_style(self, x):
+        try:
+            query = x.getStructure("query")
+        except (pva.FieldNotFound, pva.InvalidRequest):
+            return pva.PvString("error")
+        print query
+
+        q_po = pva.PvObject({"entity": pva.STRING,
+                             "starttime": pva.STRING,
+                             "endtime": pva.STRING,
+                             "param1": pva.STRING
+                             })
+        print q_po
+        q_po.setString("entity", query["entity"])
+        q_po.setString("starttime", query["starttime"])
+        q_po.setString("endtime", query["endtime"])
+        q_po.setString("param1", query["param1"])
+        print q_po
+
+        table = self.get(q_po)
 
         return table
 

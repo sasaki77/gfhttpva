@@ -8,24 +8,38 @@ from flask import current_app
 TIMEOUT = 1
 
 
-def create_request(entity, params, starttime, endtime, labels):
+def create_request(entity, params, starttime, endtime,
+                   labels, path="", nturi=False):
+
     l_entity = str(labels["entity"])
     l_start = str(labels["start"])
     l_end = str(labels["end"])
 
-    po_type = {l_entity: pva.STRING,
-               l_start: pva.STRING,
-               l_end: pva.STRING}
-    po_val = {l_entity: str(entity),
-              l_start: str(starttime),
-              l_end: str(endtime)}
+    query_type = {l_entity: pva.STRING,
+                  l_start: pva.STRING,
+                  l_end: pva.STRING}
+    query_val = {l_entity: str(entity),
+                 l_start: str(starttime),
+                 l_end: str(endtime)}
 
     for key, val in params.items():
-        po_type[str(key)] = pva.STRING
-        po_val[str(key)] = str(val)
+        query_type[str(key)] = pva.STRING
+        query_val[str(key)] = str(val)
 
-    request = pva.PvObject(po_type)
-    request.set(po_val)
+    if nturi:
+        request = pva.PvObject({"scheme": pva.STRING,
+                                "authority": pva.STRING,
+                                "path": pva.STRING,
+                                "query": query_type
+                                },
+                               "epics:nt/NTURI:1.0")
+        request["scheme"] = "pva"
+        request["authority"] = ""
+        request["path"] = str(path)
+        request.setStructure("query", query_val)
+    else:
+        request = pva.PvObject(query_type)
+        request.set(query_val)
 
     return request
 
@@ -58,11 +72,12 @@ def check_ch_name(ch_name):
         raise InvalidRequest("RPC ch name is invalid", status_code=400)
 
 
-def valget(ch_name, entity, params, starttime, endtime, labels):
+def valget(ch_name, entity, params, starttime, endtime, labels, nturi):
     check_ch_name(ch_name)
     rpc = pva.RpcClient(str(ch_name))
 
-    request = create_request(entity, params, starttime, endtime, labels)
+    request = create_request(entity, params, starttime, endtime, labels,
+                             ch_name, nturi)
     try:
         response = rpc.invoke(request, TIMEOUT)
     except pva.PvaException as e:
@@ -83,11 +98,12 @@ def valget(ch_name, entity, params, starttime, endtime, labels):
     return zip(list(value), time_ms)
 
 
-def valget_table(ch_name, entity, params, starttime, endtime, labels):
+def valget_table(ch_name, entity, params, starttime, endtime, labels, nturi):
     check_ch_name(ch_name)
     rpc = pva.RpcClient(str(ch_name))
 
-    request = create_request(entity, params, starttime, endtime, labels)
+    request = create_request(entity, params, starttime, endtime, labels,
+                             ch_name, nturi)
     try:
         response = rpc.invoke(request, TIMEOUT)
     except pva.PvaException as e:
@@ -124,11 +140,12 @@ def valget_table(ch_name, entity, params, starttime, endtime, labels):
 
 
 def get_annotation(ch_name, annotation, entity, params,
-                   starttime, endtime, labels):
+                   starttime, endtime, labels, nturi):
     check_ch_name(ch_name)
     rpc = pva.RpcClient(str(ch_name))
 
-    request = create_request(entity, params, starttime, endtime, labels)
+    request = create_request(entity, params, starttime, endtime, labels,
+                             ch_name, nturi)
     try:
         response = rpc.invoke(request, TIMEOUT)
     except pva.PvaException as e:

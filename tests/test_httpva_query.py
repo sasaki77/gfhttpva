@@ -24,7 +24,7 @@ def get_query():
                 "entity_label": "entity",
                 "start_label": "starttime",
                 "end_label": "endtime",
-                "nturi_stayle": False
+                "nturi_style": False
              }
            }
 
@@ -230,4 +230,23 @@ def test_query_error_value(client):
     rv = client.post("/query", json=query)
     json_data = rv.get_json()
     res = {'message': 'RPC returned value is invalid'}
+    assert json_data == res
+
+
+def test_query_nturi_style(client):
+    query = get_query()
+    query["jsonData"]["nturi_style"] = True
+    query["jsonData"]["ch"] = "ET_SASAKI:GFHTTPVA:TEST:get_nturi_style"
+    rv = client.post("/query", json=query)
+    json_data = rv.get_json()
+    res = [
+            {
+              "target": "long",
+              "datapoints": [
+                [0, 1514764800000],
+                [1, 1514775600000],
+                [2, 1514786400000]
+              ],
+            },
+          ]
     assert json_data == res

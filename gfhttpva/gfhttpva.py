@@ -84,6 +84,7 @@ def query_metrics():
         labels = {"entity": req["jsonData"]["entity_label"],
                   "start": req["jsonData"]["start_label"],
                   "end": req["jsonData"]["end_label"]}
+        nturi = req["jsonData"]["nturi_style"]
     except (KeyError, IndexError) as e:
         raise InvalidRequest("Invalid query", status_code=400)
 
@@ -98,12 +99,12 @@ def query_metrics():
             raise InvalidRequest("Invalid query", status_code=400)
 
         if ttype == "table":
-            table = valget_table(ch_name, entity, params,
-                                 starttime, endtime, labels)
+            table = valget_table(ch_name, entity, params, starttime,
+                                 endtime, labels, nturi)
             return jsonify(table)
 
-        datapoints = valget(ch_name, entity, params,
-                            starttime, endtime, labels)
+        datapoints = valget(ch_name, entity, params, starttime,
+                            endtime, labels, nturi)
         res_frame = {"target": entity, "datapoints": datapoints}
         res.append(res_frame)
 
@@ -128,11 +129,12 @@ def query_annotations():
         labels = {"entity": req["jsonData"]["entity_label"],
                   "start": req["jsonData"]["start_label"],
                   "end": req["jsonData"]["end_label"]}
+        nturi = req["jsonData"]["nturi_style"]
     except (KeyError, IndexError) as e:
         raise InvalidRequest("Invalid query", status_code=400)
 
-    res = get_annotation(ch_name, ann, entity, params,
-                         starttime, endtime, labels)
+    res = get_annotation(ch_name, ann, entity, params, starttime,
+                         endtime, labels, nturi)
     return jsonify(res)
 
 

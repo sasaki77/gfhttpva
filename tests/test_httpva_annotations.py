@@ -22,7 +22,8 @@ def get_annotation_query():
              "jsonData": {
                 "entity_label": "entity",
                 "start_label": "starttime",
-                "end_label": "endtime"
+                "end_label": "endtime",
+                "nturi_style": False
              }
            }
 
