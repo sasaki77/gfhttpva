@@ -53,7 +53,7 @@ Each RPC channel names are passed from generalpvaccess-datasource.
 
 Example request
 
-`starttime`, `endtime` and `entity` are necessary arguments. Any other arguments are optional which are determined by generalpvaccess-datasource settings.
+`starttime`, `endtime` and `entity` are necessary arguments and their labels are passed from generalpvaccess-datasource, i.e. these 3 arguments are necessary but their labels are arbitrary. Any other arguments are optional which are determined by generalpvaccess-datasource settings.
 ```
 structure 
     string starttime 2018-05-16T07:08:44
@@ -62,9 +62,21 @@ structure
     string begin 5
 ```
 
+NTURI style request is also available if generalpvaccess-datasource passes `nturi_style` as True.
+```
+epics:nt/NTURI:1.0
+    string scheme pva
+    string path PATH:TO:NTURI:STYLE:RPC
+    structure query
+        string starttime 2018-05-16T07:08:44
+        string endtime 2018-05-16T13:08:44
+        string entity point3
+        string begin 5
+```
+
 Example `timeserie` reponse
 
-`timeserie` response must has `value`, `secondsPastEpoch` and `nanoseconds` column. Each element name of `structure value` must be `columnX` or coincident with labels.
+`timeserie` response must has `value`, `secondsPastEpoch` and `nanoseconds` column. Each element name of `structure value` must be `columnX` or consistent with labels.
 ```
 epics:nt/NTTable:1.0 
     string[] labels [value,secondsPastEpoch,nanoseconds]
@@ -76,7 +88,7 @@ epics:nt/NTTable:1.0
 
 Example `table` reponse
 
-The table can be composed of any columns but each element name of `structure value` must be `columnX` or coincident with labels.
+The table can be composed of any columns but each element name of `structure value` must be `columnX` or consistent with labels.
 ```
 epics:nt/NTTable:1.0 
     string[] labels [value,secondsPastEpoch,nanoseconds,status,severity]
@@ -98,6 +110,17 @@ structure
     string entity test
 ```
 
+NTURI style request is also available if generalpvaccess-datasource passes `nturi_style` as True.
+```
+epics:nt/NTURI:1.0
+    string scheme pva
+    string path PATH:TO:NTURI:STYLE:RPC
+    structure query
+        string starttime 2018-05-16T07:08:44
+        string endtime 2018-05-16T13:08:44
+        string entity test
+```
+
 Example response
 ```
 epics:nt/NTTable:1.0
@@ -116,6 +139,16 @@ Example request
 structure 
     string name entity
     string entity s
+```
+
+NTURI style request is also available if generalpvaccess-datasource passes `nturi_style` as True.
+```
+epics:nt/NTURI:1.0
+    string scheme pva
+    string path PATH:TO:NTURI:STYLE:RPC
+    structure query
+        string name entity
+        string entity s
 ```
 
 Example response
