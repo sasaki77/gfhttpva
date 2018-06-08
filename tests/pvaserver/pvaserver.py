@@ -72,7 +72,8 @@ class PvaServer():
                                           "value": vals}
                                          ),
                              "epics:nt/NTTable:1.0")
-        table.setScalarArray("labels", ["value", "seconds", "nanoseconds"])
+        table.setScalarArray("labels", ["value", "secondsPastEpoch",
+                                        "nanoseconds"])
         table.setStructure("value", OrderedDict({"column0": value,
                                                  "column1": seconds,
                                                  "column2": nano}))
@@ -100,8 +101,9 @@ class PvaServer():
                                           "value": vals}
                                          ),
                              "epics:nt/NTTable:1.0")
-        table.setScalarArray("labels", ["value", "seconds", "nanoseconds",
-                                        "status", "severity", "time"])
+        table.setScalarArray("labels", ["value", "secondsPastEpoch",
+                                        "nanoseconds", "status",
+                                        "severity", "time"])
         table.setStructure("value", OrderedDict({"column0": value,
                                                  "column1": seconds,
                                                  "column2": nano,

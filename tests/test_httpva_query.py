@@ -93,7 +93,7 @@ def test_query_table(client):
             {
               "columns": [
                 {"text": "value"},
-                {"text": "seconds"},
+                {"text": "secondsPastEpoch"},
                 {"text": "nanoseconds"},
                 {"text": "status"},
                 {"text": "severity"},

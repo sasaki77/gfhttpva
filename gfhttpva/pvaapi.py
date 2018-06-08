@@ -65,7 +65,7 @@ def valget(ch_name, entity, params, starttime, endtime):
     res = response.get()
 
     value = get_value_from_table(res, "value")
-    seconds = get_value_from_table(res, "seconds")
+    seconds = get_value_from_table(res, "secondsPastEpoch")
     nano = get_value_from_table(res, "nanoseconds")
 
     time_ms = [sec*1000 + nano//(10**6)
