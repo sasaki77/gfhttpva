@@ -26,6 +26,21 @@ def create_request(entity, params, starttime, endtime,
         query_type[str(key)] = pva.STRING
         query_val[str(key)] = str(val)
 
+    request = create_request_pvdate(query_type, query_val, path, nturi)
+
+    return request
+
+
+def create_search_request(entity, name, path="", nturi=False):
+    query_type = {"entity": pva.STRING, "name": pva.STRING}
+    query_val = {"entity": str(entity), "name": str(name)}
+
+    request = create_request_pvdate(query_type, query_val, path, nturi)
+
+    return request
+
+
+def create_request_pvdate(query_type, query_val, path="", nturi=False):
     if nturi:
         request = pva.PvObject({"scheme": pva.STRING,
                                 "authority": pva.STRING,
@@ -40,16 +55,6 @@ def create_request(entity, params, starttime, endtime,
     else:
         request = pva.PvObject(query_type)
         request.set(query_val)
-
-    return request
-
-
-def create_search_request(entity, name):
-    po_type = {"entity": pva.STRING, "name": pva.STRING}
-    po_val = {"entity": str(entity), "name": str(name)}
-
-    request = pva.PvObject(po_type)
-    request.set(po_val)
 
     return request
 
@@ -175,11 +180,11 @@ def get_annotation(ch_name, annotation, entity, params,
     return annotations
 
 
-def get_search(ch_name, entity, name):
+def get_search(ch_name, entity, name, nturi):
     check_ch_name(ch_name)
     rpc = pva.RpcClient(str(ch_name))
 
-    request = create_search_request(entity, name)
+    request = create_search_request(entity, name, ch_name, nturi)
     try:
         response = rpc.invoke(request, TIMEOUT)
     except pva.PvaException as e:

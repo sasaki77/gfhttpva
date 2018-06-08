@@ -60,10 +60,11 @@ def find_metrics():
         ch_name = req["ch"]
         entity = req["target"]
         name = req["name"] if "name" in req else "entity"
+        nturi = req["nturi_style"]
     except KeyError:
         raise InvalidRequest("Search request invalid", status_code=400)
 
-    res = get_search(ch_name, entity, name)
+    res = get_search(ch_name, entity, name, nturi)
 
     return jsonify(res)
 

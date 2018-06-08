@@ -29,6 +29,8 @@ class PvaServer():
                                  self.get_inconsistent_field)
         self.srv.registerService(prefix + "get_illegal_field",
                                  self.get_illegal_field)
+        self.srv.registerService(prefix + "search_nturi_style",
+                                 self.search_nturi_style)
 
     def run(self):
         self.srv.startListener()
@@ -126,19 +128,16 @@ class PvaServer():
             query = x.getStructure("query")
         except (pva.FieldNotFound, pva.InvalidRequest):
             return pva.PvString("error")
-        print query
 
         q_po = pva.PvObject({"entity": pva.STRING,
                              "starttime": pva.STRING,
                              "endtime": pva.STRING,
                              "param1": pva.STRING
                              })
-        print q_po
         q_po.setString("entity", query["entity"])
         q_po.setString("starttime", query["starttime"])
         q_po.setString("endtime", query["endtime"])
         q_po.setString("param1", query["param1"])
-        print q_po
 
         table = self.get(q_po)
 
@@ -206,6 +205,22 @@ class PvaServer():
         pv = pva.PvObject({"value": [pva.STRING]},
                           "epics:nt/NTScalarArray:1.0")
         pv["value"] = value
+
+        return pv
+
+    def search_nturi_style(self, x):
+        try:
+            query = x.getStructure("query")
+        except (pva.FieldNotFound, pva.InvalidRequest):
+            return pva.PvString("error")
+
+        q_po = pva.PvObject({"entity": pva.STRING,
+                             "name": pva.STRING,
+                             })
+        q_po.setString("entity", query["entity"])
+        q_po.setString("name", query["name"])
+
+        pv = self.search(q_po)
 
         return pv
 
