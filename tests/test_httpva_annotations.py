@@ -18,6 +18,11 @@ def get_annotation_query():
                u"enable": True,
                u"ch": u"ET_SASAKI:GFHTTPVA:TEST:annotation",
                u"entity": u"foobar"
+             },
+             "jsonData": {
+                "entity_label": "entity",
+                "start_label": "starttime",
+                "end_label": "endtime"
              }
            }
 

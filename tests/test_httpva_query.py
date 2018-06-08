@@ -20,7 +20,11 @@ def get_query():
              '"type": "timeserie", "params": {"param1": 0}},'
              "maxDataPoints": 399,
              "jsonData": {
-                "ch": "ET_SASAKI:GFHTTPVA:TEST:get"
+                "ch": "ET_SASAKI:GFHTTPVA:TEST:get",
+                "entity_label": "entity",
+                "start_label": "starttime",
+                "end_label": "endtime",
+                "nturi_stayle": False
              }
            }
 
