@@ -21,6 +21,12 @@ class PvaServer():
         self.srv.registerService(prefix + "get", self.get)
         self.srv.registerService(prefix + "search", self.search)
         self.srv.registerService(prefix + "annotation", self.annotation)
+        self.srv.registerService(prefix + "get_consistent_field",
+                                 self.get_consistent_field)
+        self.srv.registerService(prefix + "get_inconsistent_field",
+                                 self.get_inconsistent_field)
+        self.srv.registerService(prefix + "get_illegal_field",
+                                 self.get_illegal_field)
 
     def run(self):
         self.srv.startListener()
@@ -111,6 +117,51 @@ class PvaServer():
                                                  "column4": severity,
                                                  "column5": time}))
 
+        return table
+
+    def get_consistent_field(self, x):
+        vals = OrderedDict([("value", [pva.ULONG]),
+                            ("secondsPastEpoch", [pva.ULONG]),
+                            ("nanoseconds", [pva.ULONG])])
+        table = pva.PvObject(OrderedDict({"labels": [pva.STRING],
+                                          "value": vals}
+                                         ),
+                             "epics:nt/NTTable:1.0")
+        table.setScalarArray("labels", ["value", "secondsPastEpoch",
+                                        "nanoseconds"])
+        table.setStructure("value", OrderedDict({"value": [0],
+                                                 "secondsPastEpoch": [0],
+                                                 "nanoseconds": [0]}))
+        return table
+
+    def get_inconsistent_field(self, x):
+        vals = OrderedDict([("error1", [pva.ULONG]),
+                            ("error2", [pva.ULONG]),
+                            ("error3", [pva.ULONG])])
+        table = pva.PvObject(OrderedDict({"labels": [pva.STRING],
+                                          "value": vals}
+                                         ),
+                             "epics:nt/NTTable:1.0")
+        table.setScalarArray("labels", ["value", "secondsPastEpoch",
+                                        "nanoseconds"])
+        table.setStructure("value", OrderedDict({"error1": [0],
+                                                 "error2": [0],
+                                                 "error3": [0]}))
+        return table
+
+    def get_illegal_field(self, x):
+        vals = OrderedDict([("value", [pva.ULONG]),
+                            ("seconds", [pva.ULONG]),
+                            ("nanoseconds", [pva.ULONG])])
+        table = pva.PvObject(OrderedDict({"labels": [pva.STRING],
+                                          "value": vals}
+                                         ),
+                             "epics:nt/NTTable:1.0")
+        table.setScalarArray("labels", ["value", "seconds",
+                                        "nanoseconds"])
+        table.setStructure("value", OrderedDict({"value": [0],
+                                                 "seconds": [0],
+                                                 "nanoseconds": [0]}))
         return table
 
     def search(self, x):

@@ -193,3 +193,37 @@ def test_query_not_exist_ch_table(client):
     json_data = rv.get_json()
     res = {'message': 'connection timeout'}
     assert json_data == res
+
+
+def test_query_coincident_field(client):
+    query = get_query()
+    query["jsonData"]["ch"] = "ET_SASAKI:GFHTTPVA:TEST:get_consistent_field"
+    rv = client.post("/query", json=query)
+    json_data = rv.get_json()
+    res = [
+            {
+              "target": "long",
+              "datapoints": [
+                [0, 0],
+              ],
+            }
+          ]
+    assert json_data == res
+
+
+def test_query_error_field(client):
+    query = get_query()
+    query["jsonData"]["ch"] = "ET_SASAKI:GFHTTPVA:TEST:get_inconsistent_field"
+    rv = client.post("/query", json=query)
+    json_data = rv.get_json()
+    res = {'message': 'RPC returned value is invalid'}
+    assert json_data == res
+
+
+def test_query_error_value(client):
+    query = get_query()
+    query["jsonData"]["ch"] = "ET_SASAKI:GFHTTPVA:TEST:get_illegal_field"
+    rv = client.post("/query", json=query)
+    json_data = rv.get_json()
+    res = {'message': 'RPC returned value is invalid'}
+    assert json_data == res
