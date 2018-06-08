@@ -64,10 +64,10 @@ structure
 
 Example `timeserie` reponse
 
-`timeserie` response must has `value`, `seconds` and `nanoseconds` column. Each element name of `structure value` must be `columnX`.
+`timeserie` response must has `value`, `secondsPastEpoch` and `nanoseconds` column. Each element name of `structure value` must be `columnX` or coincident with labels.
 ```
 epics:nt/NTTable:1.0 
-    string[] labels [value,seconds,nanoseconds]
+    string[] labels [value,secondsPastEpoch,nanoseconds]
     structure value
         double[] column0 [5, 6, 7]
         double[] column1 [1526422268, 1526433068, 1526443868] // unixtimestamp in seconds
@@ -76,10 +76,10 @@ epics:nt/NTTable:1.0
 
 Example `table` reponse
 
-The table can be composed of any columns but each element name of `structure value` must be `columnX`.
+The table can be composed of any columns but each element name of `structure value` must be `columnX` or coincident with labels.
 ```
 epics:nt/NTTable:1.0 
-    string[] labels [value,seconds,nanoseconds,status,severity]
+    string[] labels [value,secondsPastEpoch,nanoseconds,status,severity]
     structure value
         double[] column0 [1.1, 1.2, 2.0]
         double[] column1 [1460589140, 1460589141, 1460589142]
