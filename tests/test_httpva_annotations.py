@@ -16,10 +16,10 @@ def get_annotation_query():
                u"datasource": u"bar datasource",
                u"iconColor": u"rgba(255, 96, 96, 1)",
                u"enable": True,
-               u"ch": u"ET_SASAKI:GFHTTPVA:TEST:annotation",
                u"entity": u"foobar"
              },
              "jsonData": {
+                "ch": "ET_SASAKI:GFHTTPVA:TEST:annotation",
                 "entity_label": "entity",
                 "start_label": "starttime",
                 "end_label": "endtime",
@@ -75,7 +75,7 @@ def test_annotation_invalid_query(client):
 
 def test_annotation_empty_ch(client):
     query = get_annotation_query()
-    query["annotation"]["ch"] = ""
+    query["jsonData"]["ch"] = ""
     rv = client.post("/annotations", json=query)
     json_data = rv.get_json()
     res = {'message': 'RPC ch name is invalid'}
@@ -84,7 +84,7 @@ def test_annotation_empty_ch(client):
 
 def test_annotation_not_exist_ch(client):
     query = get_annotation_query()
-    query["annotation"]["ch"] = "NOT:EXIST:CH"
+    query["jsonData"]["ch"] = "NOT:EXIST:CH"
     rv = client.post("/annotations", json=query)
     json_data = rv.get_json()
     res = {'message': 'connection timeout'}

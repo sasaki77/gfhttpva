@@ -122,7 +122,7 @@ def query_annotations():
 
     try:
         ann = req["annotation"]
-        ch_name = ann["ch"]
+        ch_name = req["jsonData"]["ch"]
         entity = ann["entity"]
         starttime = iso_to_dt(req["range"]["from"].split(".")[0])
         endtime = iso_to_dt(req["range"]["to"].split(".")[0])
