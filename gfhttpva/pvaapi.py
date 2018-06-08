@@ -36,9 +36,12 @@ def create_search_request(entity, name):
 
 def get_value_from_table(table, key):
     try:
-        index = "column" + str(table["labels"].index(key))
-        return table["value"][index]
-    except (KeyError, ValueError) as e:
+        if key in table["value"]:
+            return table["value"][key]
+        else:
+            index = "column" + str(table["labels"].index(key))
+            return table["value"][index]
+    except (KeyError, ValueError, TypeError) as e:
         current_app.logger.error("get_value_from_table: KeyError")
         raise InvalidRequest("RPC returned value is invalid", status_code=400)
 
