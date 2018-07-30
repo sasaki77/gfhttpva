@@ -10,6 +10,30 @@ TIMEOUT = 1
 
 def create_request(entity, params, starttime, endtime,
                    labels, path="", nturi=False):
+    """Create pvAccess RPC request
+
+    Parameters
+    ----------
+    entity : str or unicode
+        query entity
+    params : dict
+        parameters for optional RPC request query
+    starttime : str or unicode
+        start time as string
+    endtime : str or unicode
+        end time as string
+    labels : dict
+        labels for entity, starttime and endtime
+    path : str
+        path for nturi style path
+    nturi : bool
+        whether create request as nturi style or not
+
+    Returns
+    -------
+    pvaccess.PvObject
+        pvAccess RPC request pvData
+    """
 
     l_entity = str(labels["entity"])
     l_start = str(labels["start"])
@@ -32,6 +56,23 @@ def create_request(entity, params, starttime, endtime,
 
 
 def create_search_request(entity, name, path="", nturi=False):
+    """Create pvAccess RPC request for find metrics
+
+    Parameters
+    ----------
+    entity : str or unicode
+        query entity
+    name: str or unicode
+        name to find metrics
+    path : str
+        path for nturi style path
+
+    Returns
+    -------
+    pvaccess.PvObject
+        pvAccess RPC request pvData for find mertics
+    """
+
     query_type = {"entity": pva.STRING, "name": pva.STRING}
     query_val = {"entity": str(entity), "name": str(name)}
 
@@ -41,6 +82,25 @@ def create_search_request(entity, name, path="", nturi=False):
 
 
 def create_request_pvdate(query_type, query_val, path="", nturi=False):
+    """Create RPC request pvData
+
+    Parameters
+    ----------
+    query_type : dict
+        dict of pvaccess type for query
+    query_val : dict
+        dict of query value
+    path : str
+        path for nturi style path
+    nturi : bool
+        whether create request as nturi style or not
+
+    Returns
+    -------
+    pvaccess.PvObject
+        pvAccess RPC request pvData
+    """
+
     if nturi:
         request = pva.PvObject({"scheme": pva.STRING,
                                 "authority": pva.STRING,
@@ -60,6 +120,26 @@ def create_request_pvdate(query_type, query_val, path="", nturi=False):
 
 
 def get_value_from_table(table, key):
+    """Get value from NTTable style dict
+
+    Parameters
+    ----------
+    table : dict
+        dict of NTTable style dict
+    key : str
+        required column name
+
+    Returns
+    -------
+    list
+        required column values
+
+    Raises
+    ------
+    InvalidRequest
+        if table has no requered key
+    """
+
     try:
         if key in table["value"]:
             return table["value"][key]
@@ -72,12 +152,55 @@ def get_value_from_table(table, key):
 
 
 def check_ch_name(ch_name):
+    """Check RPC channel name is valid
+
+    Parameters
+    ----------
+    ch_name : str or unicode
+        channel name
+
+    Raises
+    ------
+    InvalidRequest
+        if channel name is invalid
+    """
+
     if not ch_name:
         current_app.logger.error("valget: Empty ch name")
         raise InvalidRequest("RPC ch name is invalid", status_code=400)
 
 
 def valget(ch_name, entity, params, starttime, endtime, labels, nturi):
+    """Get timesiries values using pvAccess RPC
+
+    Parameters
+    ----------
+    ch_name : str or unicode
+        channel name of pvAccess RPC
+    entity : str or unicode
+        query entity
+    params : dict
+        parameters for optional RPC request query
+    starttime : str or unicode
+        start time as string
+    endtime : str or unicode
+        end time as string
+    labels : dict
+        labels for entity, starttime and endtime
+    nturi : bool
+        whether create request as nturi style or not
+
+    Returns
+    -------
+    tuple
+        tuble of value and its time
+
+    Raises
+    ------
+    InvalidRequest
+        if failed to call pvAccess RPC
+    """
+
     check_ch_name(ch_name)
     rpc = pva.RpcClient(str(ch_name))
 
@@ -104,6 +227,36 @@ def valget(ch_name, entity, params, starttime, endtime, labels, nturi):
 
 
 def valget_table(ch_name, entity, params, starttime, endtime, labels, nturi):
+    """Get table values using pvAccess RPC
+
+    Parameters
+    ----------
+    ch_name : str or unicode
+        channel name of pvAccess RPC
+    entity : str or unicode
+        query entity
+    params : dict
+        parameters for optional RPC request query
+    starttime : str or unicode
+        start time as string
+    endtime : str or unicode
+        end time as string
+    labels : dict
+        labels for entity, starttime and endtime
+    nturi : bool
+        whether create request as nturi style or not
+
+    Returns
+    -------
+    list of dict
+        list of table values dict
+
+    Raises
+    ------
+    InvalidRequest
+        if failed to call pvAccess RPC
+    """
+
     check_ch_name(ch_name)
     rpc = pva.RpcClient(str(ch_name))
 
@@ -146,6 +299,38 @@ def valget_table(ch_name, entity, params, starttime, endtime, labels, nturi):
 
 def get_annotation(ch_name, annotation, entity, params,
                    starttime, endtime, labels, nturi):
+    """Get annotation values using pvAccess RPC
+
+    Parameters
+    ----------
+    ch_name : str or unicode
+        channel name of pvAccess RPC
+    annotation : str or unicode
+        annotation to return it as is
+    entity : str or unicode
+        query entity
+    params : dict
+        parameters for optional RPC request query
+    starttime : str or unicode
+        start time as string
+    endtime : str or unicode
+        end time as string
+    labels : dict
+        labels for entity, starttime and endtime
+    nturi : bool
+        whether create request as nturi style or not
+
+    Returns
+    -------
+    tuple
+        tuble of value and its time
+
+    Raises
+    ------
+    InvalidRequest
+        if failed to call pvAccess RPC
+    """
+
     check_ch_name(ch_name)
     rpc = pva.RpcClient(str(ch_name))
 
@@ -181,6 +366,30 @@ def get_annotation(ch_name, annotation, entity, params,
 
 
 def get_search(ch_name, entity, name, nturi):
+    """Get search values using pvAccess RPC
+
+    Parameters
+    ----------
+    ch_name : str or unicode
+        channel name of pvAccess RPC
+    entity : str or unicode
+        query entity
+    name : str or unicoe
+        name to find metrics
+    nturi : bool
+        whether create request as nturi style or not
+
+    Returns
+    -------
+    list
+        list of searched metrics
+
+    Raises
+    ------
+    InvalidRequest
+        if failed to call pvAccess RPC
+    """
+
     check_ch_name(ch_name)
     rpc = pva.RpcClient(str(ch_name))
 
