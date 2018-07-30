@@ -16,6 +16,24 @@ TIMEZONE = timezone()
 
 
 def iso_to_dt(iso_str):
+    """Convert ISO time fomat string to datetime with timezone
+
+    Parameters
+    ----------
+    iso_str : str
+        iso time format str
+
+    Returns
+    -------
+    datetime.datetime
+        a datetime converted from iso time format str
+
+    Raises
+    ------
+    InvalidRequest
+        if iso_str format is invalid
+    """
+
     try:
         dt = datetime.strptime(iso_str, "%Y-%m-%dT%H:%M:%S")
         tz = TIMEZONE.get_tz()
@@ -42,6 +60,14 @@ def iso_to_dt(iso_str):
 @gfhttpva.route("/", methods=methods)
 @cross_origin()
 def hello_world():
+    """Root URL function to use test
+
+    Returns
+    -------
+    str
+        a test str
+    """
+
     current_app.logger.info(request.headers)
     current_app.logger.info(request.get_json())
 
@@ -51,6 +77,18 @@ def hello_world():
 @gfhttpva.route("/search", methods=methods)
 @cross_origin()
 def find_metrics():
+    """search URL fonction to find metric options with pvAccss
+    Returns
+    -------
+    flask.Response
+        json formatted search result response
+
+    Raises
+    ------
+    InvalidRequest
+        if request parameters are missing
+    """
+
     current_app.logger.info(request.headers)
     current_app.logger.info(request.get_json())
 
@@ -72,6 +110,18 @@ def find_metrics():
 @gfhttpva.route("/query", methods=methods)
 @cross_origin(max_age=600)
 def query_metrics():
+    """query URL fonction to get metrics
+    Returns
+    -------
+    flask.Response
+        json formatted metrics response
+
+    Raises
+    ------
+    InvalidRequest
+        if request parameters are missing
+    """
+
     current_app.logger.info(request.headers)
     current_app.logger.info(request.get_json())
 
@@ -115,6 +165,18 @@ def query_metrics():
 @gfhttpva.route("/annotations", methods=methods)
 @cross_origin(max_age=600)
 def query_annotations():
+    """annotations URL fonction to get annotationsj
+    Returns
+    -------
+    flask.Response
+        json formatted annotations response
+
+    Raises
+    ------
+    InvalidRequest
+        if request parameters are missing
+    """
+
     current_app.logger.info(request.headers)
     current_app.logger.info(request.get_json())
 
@@ -141,6 +203,19 @@ def query_annotations():
 
 @gfhttpva.errorhandler(InvalidRequest)
 def handle_invalid_usage(error):
+    """Flask error handler for InvalidRequest
+
+    Parameters
+    ----------
+    error : exception.InvalidRequest
+        error detail
+
+    Returns
+    -------
+    flask.Response
+        json formatted error response
+    """
+
     response = jsonify(error.to_dict())
     response.status_code = error.status_code
     return response

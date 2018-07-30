@@ -12,11 +12,15 @@ from . import pvaapi
 
 
 def create_app(config_obj="gfhttpva.config.DefaultConfig"):
+    """Create app for Flask application
+
+    Parameters
+    ----------
+    object_name: str
+        the python path to the config object
+        (e.g. gfhttpva.config.DefaultConfig)
     """
-    Arguments:
-    object_name: the python path of the config object,
-                 e.g. gfhttpva.config.DefaultConfig
-    """
+
     app = Flask(__name__)
 
     app.config.from_object(config_obj)
