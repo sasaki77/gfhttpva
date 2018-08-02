@@ -1,0 +1,654 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>gfhttpva API &#8212; gfhttpva 1.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Welcome to gfhttpva’s documentation!" href="index.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to gfhttpva’s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">gfhttpva 1.0.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="gfhttpva-api">
+<h1>gfhttpva API<a class="headerlink" href="#gfhttpva-api" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-gfhttpva">
+<span id="gfhttpva"></span><h2>gfhttpva<a class="headerlink" href="#module-gfhttpva" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="gfhttpva.create_app">
+<code class="descclassname">gfhttpva.</code><code class="descname">create_app</code><span class="sig-paren">(</span><em>config_obj='gfhttpva.config.DefaultConfig'</em><span class="sig-paren">)</span><a class="headerlink" href="#gfhttpva.create_app" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create app for Flask application</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>object_name</strong> (<em>str</em>) – the python path to the config object
+(e.g. gfhttpva.config.DefaultConfig)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-gfhttpva.gfhttpva">
+<span id="gfhttpva-gfhttpva"></span><h2>gfhttpva.gfhttpva<a class="headerlink" href="#module-gfhttpva.gfhttpva" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="gfhttpva.gfhttpva.find_metrics">
+<code class="descclassname">gfhttpva.gfhttpva.</code><code class="descname">find_metrics</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#gfhttpva.gfhttpva.find_metrics" title="Permalink to this definition">¶</a></dt>
+<dd><p>search URL fonction to find metric options with pvAccss
+:returns: json formatted search result response
+:rtype: flask.Response</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal notranslate"><span class="pre">InvalidRequest</span></code> – if request parameters are missing</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="gfhttpva.gfhttpva.handle_invalid_usage">
+<code class="descclassname">gfhttpva.gfhttpva.</code><code class="descname">handle_invalid_usage</code><span class="sig-paren">(</span><em>error</em><span class="sig-paren">)</span><a class="headerlink" href="#gfhttpva.gfhttpva.handle_invalid_usage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flask error handler for InvalidRequest</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>error</strong> (<a class="reference internal" href="#gfhttpva.exception.InvalidRequest" title="gfhttpva.exception.InvalidRequest"><em>exception.InvalidRequest</em></a>) – error detail</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">json formatted error response</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">flask.Response</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="gfhttpva.gfhttpva.hello_world">
+<code class="descclassname">gfhttpva.gfhttpva.</code><code class="descname">hello_world</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#gfhttpva.gfhttpva.hello_world" title="Permalink to this definition">¶</a></dt>
+<dd><p>Root URL function to use test</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a test str</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="gfhttpva.gfhttpva.iso_to_dt">
+<code class="descclassname">gfhttpva.gfhttpva.</code><code class="descname">iso_to_dt</code><span class="sig-paren">(</span><em>iso_str</em><span class="sig-paren">)</span><a class="headerlink" href="#gfhttpva.gfhttpva.iso_to_dt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert ISO time fomat string to datetime with timezone</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>iso_str</strong> (<em>str</em>) – iso time format str</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a datetime converted from iso time format str</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">datetime.datetime</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal notranslate"><span class="pre">InvalidRequest</span></code> – if iso_str format is invalid</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="gfhttpva.gfhttpva.query_annotations">
+<code class="descclassname">gfhttpva.gfhttpva.</code><code class="descname">query_annotations</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#gfhttpva.gfhttpva.query_annotations" title="Permalink to this definition">¶</a></dt>
+<dd><p>annotations URL fonction to get annotationsj
+:returns: json formatted annotations response
+:rtype: flask.Response</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal notranslate"><span class="pre">InvalidRequest</span></code> – if request parameters are missing</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="gfhttpva.gfhttpva.query_metrics">
+<code class="descclassname">gfhttpva.gfhttpva.</code><code class="descname">query_metrics</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#gfhttpva.gfhttpva.query_metrics" title="Permalink to this definition">¶</a></dt>
+<dd><p>query URL fonction to get metrics
+:returns: json formatted metrics response
+:rtype: flask.Response</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal notranslate"><span class="pre">InvalidRequest</span></code> – if request parameters are missing</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-gfhttpva.pvaapi">
+<span id="gfhttpva-pvaapi"></span><h2>gfhttpva.pvaapi<a class="headerlink" href="#module-gfhttpva.pvaapi" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="gfhttpva.pvaapi.check_ch_name">
+<code class="descclassname">gfhttpva.pvaapi.</code><code class="descname">check_ch_name</code><span class="sig-paren">(</span><em>ch_name</em><span class="sig-paren">)</span><a class="headerlink" href="#gfhttpva.pvaapi.check_ch_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check RPC channel name is valid</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ch_name</strong> (<em>str</em><em> or </em><em>unicode</em>) – channel name</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal notranslate"><span class="pre">InvalidRequest</span></code> – if channel name is invalid</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="gfhttpva.pvaapi.create_request">
+<code class="descclassname">gfhttpva.pvaapi.</code><code class="descname">create_request</code><span class="sig-paren">(</span><em>entity</em>, <em>params</em>, <em>starttime</em>, <em>endtime</em>, <em>labels</em>, <em>path=''</em>, <em>nturi=False</em><span class="sig-paren">)</span><a class="headerlink" href="#gfhttpva.pvaapi.create_request" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create pvAccess RPC request</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>entity</strong> (<em>str</em><em> or </em><em>unicode</em>) – query entity</li>
+<li><strong>params</strong> (<em>dict</em>) – parameters for optional RPC request query</li>
+<li><strong>starttime</strong> (<em>str</em><em> or </em><em>unicode</em>) – start time as string</li>
+<li><strong>endtime</strong> (<em>str</em><em> or </em><em>unicode</em>) – end time as string</li>
+<li><strong>labels</strong> (<em>dict</em>) – labels for entity, starttime and endtime</li>
+<li><strong>path</strong> (<em>str</em>) – path for nturi style path</li>
+<li><strong>nturi</strong> (<em>bool</em>) – whether create request as nturi style or not</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">pvAccess RPC request pvData</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">pvaccess.PvObject</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="gfhttpva.pvaapi.create_request_pvdate">
+<code class="descclassname">gfhttpva.pvaapi.</code><code class="descname">create_request_pvdate</code><span class="sig-paren">(</span><em>query_type</em>, <em>query_val</em>, <em>path=''</em>, <em>nturi=False</em><span class="sig-paren">)</span><a class="headerlink" href="#gfhttpva.pvaapi.create_request_pvdate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create RPC request pvData</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>query_type</strong> (<em>dict</em>) – dict of pvaccess type for query</li>
+<li><strong>query_val</strong> (<em>dict</em>) – dict of query value</li>
+<li><strong>path</strong> (<em>str</em>) – path for nturi style path</li>
+<li><strong>nturi</strong> (<em>bool</em>) – whether create request as nturi style or not</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">pvAccess RPC request pvData</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">pvaccess.PvObject</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="gfhttpva.pvaapi.create_search_request">
+<code class="descclassname">gfhttpva.pvaapi.</code><code class="descname">create_search_request</code><span class="sig-paren">(</span><em>entity</em>, <em>name</em>, <em>path=''</em>, <em>nturi=False</em><span class="sig-paren">)</span><a class="headerlink" href="#gfhttpva.pvaapi.create_search_request" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create pvAccess RPC request for find metrics</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>entity</strong> (<em>str</em><em> or </em><em>unicode</em>) – query entity</li>
+<li><strong>name</strong> (<em>str</em><em> or </em><em>unicode</em>) – name to find metrics</li>
+<li><strong>path</strong> (<em>str</em>) – path for nturi style path</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">pvAccess RPC request pvData for find mertics</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">pvaccess.PvObject</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="gfhttpva.pvaapi.get_annotation">
+<code class="descclassname">gfhttpva.pvaapi.</code><code class="descname">get_annotation</code><span class="sig-paren">(</span><em>ch_name</em>, <em>annotation</em>, <em>entity</em>, <em>params</em>, <em>starttime</em>, <em>endtime</em>, <em>labels</em>, <em>nturi</em><span class="sig-paren">)</span><a class="headerlink" href="#gfhttpva.pvaapi.get_annotation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get annotation values using pvAccess RPC</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>ch_name</strong> (<em>str</em><em> or </em><em>unicode</em>) – channel name of pvAccess RPC</li>
+<li><strong>annotation</strong> (<em>str</em><em> or </em><em>unicode</em>) – annotation to return it as is</li>
+<li><strong>entity</strong> (<em>str</em><em> or </em><em>unicode</em>) – query entity</li>
+<li><strong>params</strong> (<em>dict</em>) – parameters for optional RPC request query</li>
+<li><strong>starttime</strong> (<em>str</em><em> or </em><em>unicode</em>) – start time as string</li>
+<li><strong>endtime</strong> (<em>str</em><em> or </em><em>unicode</em>) – end time as string</li>
+<li><strong>labels</strong> (<em>dict</em>) – labels for entity, starttime and endtime</li>
+<li><strong>nturi</strong> (<em>bool</em>) – whether create request as nturi style or not</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">tuble of value and its time</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">tuple</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal notranslate"><span class="pre">InvalidRequest</span></code> – if failed to call pvAccess RPC</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="gfhttpva.pvaapi.get_search">
+<code class="descclassname">gfhttpva.pvaapi.</code><code class="descname">get_search</code><span class="sig-paren">(</span><em>ch_name</em>, <em>entity</em>, <em>name</em>, <em>nturi</em><span class="sig-paren">)</span><a class="headerlink" href="#gfhttpva.pvaapi.get_search" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get search values using pvAccess RPC</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>ch_name</strong> (<em>str</em><em> or </em><em>unicode</em>) – channel name of pvAccess RPC</li>
+<li><strong>entity</strong> (<em>str</em><em> or </em><em>unicode</em>) – query entity</li>
+<li><strong>name</strong> (<em>str</em><em> or </em><em>unicoe</em>) – name to find metrics</li>
+<li><strong>nturi</strong> (<em>bool</em>) – whether create request as nturi style or not</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">list of searched metrics</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">list</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal notranslate"><span class="pre">InvalidRequest</span></code> – if failed to call pvAccess RPC</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="gfhttpva.pvaapi.get_value_from_table">
+<code class="descclassname">gfhttpva.pvaapi.</code><code class="descname">get_value_from_table</code><span class="sig-paren">(</span><em>table</em>, <em>key</em><span class="sig-paren">)</span><a class="headerlink" href="#gfhttpva.pvaapi.get_value_from_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get value from NTTable style dict</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>table</strong> (<em>dict</em>) – dict of NTTable style dict</li>
+<li><strong>key</strong> (<em>str</em>) – required column name</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">required column values</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">list</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal notranslate"><span class="pre">InvalidRequest</span></code> – if table has no requered key</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="gfhttpva.pvaapi.valget">
+<code class="descclassname">gfhttpva.pvaapi.</code><code class="descname">valget</code><span class="sig-paren">(</span><em>ch_name</em>, <em>entity</em>, <em>params</em>, <em>starttime</em>, <em>endtime</em>, <em>labels</em>, <em>nturi</em><span class="sig-paren">)</span><a class="headerlink" href="#gfhttpva.pvaapi.valget" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get timesiries values using pvAccess RPC</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>ch_name</strong> (<em>str</em><em> or </em><em>unicode</em>) – channel name of pvAccess RPC</li>
+<li><strong>entity</strong> (<em>str</em><em> or </em><em>unicode</em>) – query entity</li>
+<li><strong>params</strong> (<em>dict</em>) – parameters for optional RPC request query</li>
+<li><strong>starttime</strong> (<em>str</em><em> or </em><em>unicode</em>) – start time as string</li>
+<li><strong>endtime</strong> (<em>str</em><em> or </em><em>unicode</em>) – end time as string</li>
+<li><strong>labels</strong> (<em>dict</em>) – labels for entity, starttime and endtime</li>
+<li><strong>nturi</strong> (<em>bool</em>) – whether create request as nturi style or not</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">tuble of value and its time</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">tuple</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal notranslate"><span class="pre">InvalidRequest</span></code> – if failed to call pvAccess RPC</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="gfhttpva.pvaapi.valget_table">
+<code class="descclassname">gfhttpva.pvaapi.</code><code class="descname">valget_table</code><span class="sig-paren">(</span><em>ch_name</em>, <em>entity</em>, <em>params</em>, <em>starttime</em>, <em>endtime</em>, <em>labels</em>, <em>nturi</em><span class="sig-paren">)</span><a class="headerlink" href="#gfhttpva.pvaapi.valget_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get table values using pvAccess RPC</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>ch_name</strong> (<em>str</em><em> or </em><em>unicode</em>) – channel name of pvAccess RPC</li>
+<li><strong>entity</strong> (<em>str</em><em> or </em><em>unicode</em>) – query entity</li>
+<li><strong>params</strong> (<em>dict</em>) – parameters for optional RPC request query</li>
+<li><strong>starttime</strong> (<em>str</em><em> or </em><em>unicode</em>) – start time as string</li>
+<li><strong>endtime</strong> (<em>str</em><em> or </em><em>unicode</em>) – end time as string</li>
+<li><strong>labels</strong> (<em>dict</em>) – labels for entity, starttime and endtime</li>
+<li><strong>nturi</strong> (<em>bool</em>) – whether create request as nturi style or not</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">list of table values dict</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">list of dict</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal notranslate"><span class="pre">InvalidRequest</span></code> – if failed to call pvAccess RPC</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-gfhttpva.exception">
+<span id="gfhttpva-exception"></span><h2>gfhttpva.exception<a class="headerlink" href="#module-gfhttpva.exception" title="Permalink to this headline">¶</a></h2>
+<dl class="exception">
+<dt id="gfhttpva.exception.InvalidRequest">
+<em class="property">exception </em><code class="descclassname">gfhttpva.exception.</code><code class="descname">InvalidRequest</code><span class="sig-paren">(</span><em>message</em>, <em>status_code=None</em>, <em>payload=None</em><span class="sig-paren">)</span><a class="headerlink" href="#gfhttpva.exception.InvalidRequest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">exceptions.Exception</span></code></p>
+<p>A class used to raise invalid request exception on Flask</p>
+<dl class="attribute">
+<dt id="gfhttpva.exception.InvalidRequest.message">
+<code class="descname">message</code><a class="headerlink" href="#gfhttpva.exception.InvalidRequest.message" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>str</em> – error message for error response</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="gfhttpva.exception.InvalidRequest.status_code">
+<code class="descname">status_code</code><a class="headerlink" href="#gfhttpva.exception.InvalidRequest.status_code" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> – status code for error response</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="gfhttpva.exception.InvalidRequest.payload">
+<code class="descname">payload</code><a class="headerlink" href="#gfhttpva.exception.InvalidRequest.payload" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>str</em> – optional payload to give more context for the error</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gfhttpva.exception.InvalidRequest.to_dict">
+<code class="descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gfhttpva.exception.InvalidRequest.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>return message and payload as dict</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">status_code</code><em class="property"> = 400</em></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Return message and payload as dict</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a dict which has message and optional payload</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">dict</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-gfhttpva.timezone">
+<span id="gfhttpva-timezone"></span><h2>gfhttpva.timezone<a class="headerlink" href="#module-gfhttpva.timezone" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="gfhttpva.timezone.timezone">
+<em class="property">class </em><code class="descclassname">gfhttpva.timezone.</code><code class="descname">timezone</code><a class="headerlink" href="#gfhttpva.timezone.timezone" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Timezone to manage it in programs</p>
+<dl class="attribute">
+<dt id="gfhttpva.timezone.timezone.tz">
+<code class="descname">tz</code><a class="headerlink" href="#gfhttpva.timezone.timezone.tz" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>pytz.timezone</em> – timezone</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gfhttpva.timezone.timezone.set_tz">
+<code class="descname">set_tz</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gfhttpva.timezone.timezone.set_tz" title="Permalink to this definition">¶</a></dt>
+<dd><p>set timezone</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gfhttpva.timezone.timezone.get_tz">
+<code class="descname">get_tz</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gfhttpva.timezone.timezone.get_tz" title="Permalink to this definition">¶</a></dt>
+<dd><p>get timezone</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">get_tz</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Get timezone</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">timezone in this program</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">pytz.timezone</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">set_tz</code><span class="sig-paren">(</span><em>timezone_name</em><span class="sig-paren">)</span></dt>
+<dd><p>Set timezone with timezone name</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>timezone_name</strong> (<em>str</em>) – name of timezone</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Return if timezone is set correctly</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">bool</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-gfhttpva.config">
+<span id="gfhttpva-config"></span><h2>gfhttpva.config<a class="headerlink" href="#module-gfhttpva.config" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="gfhttpva.config.DefaultConfig">
+<em class="property">class </em><code class="descclassname">gfhttpva.config.</code><code class="descname">DefaultConfig</code><a class="headerlink" href="#gfhttpva.config.DefaultConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class for default configuration</p>
+<dl class="attribute">
+<dt id="gfhttpva.config.DefaultConfig.LOG_COUNT">
+<code class="descname">LOG_COUNT</code><em class="property"> = 1</em><a class="headerlink" href="#gfhttpva.config.DefaultConfig.LOG_COUNT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gfhttpva.config.DefaultConfig.LOG_MAXBYTE">
+<code class="descname">LOG_MAXBYTE</code><em class="property"> = 80000</em><a class="headerlink" href="#gfhttpva.config.DefaultConfig.LOG_MAXBYTE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gfhttpva.config.DefaultConfig.LOG_PATH">
+<code class="descname">LOG_PATH</code><em class="property"> = None</em><a class="headerlink" href="#gfhttpva.config.DefaultConfig.LOG_PATH" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gfhttpva.config.DefaultConfig.PVA_RPC_TIMEOUT">
+<code class="descname">PVA_RPC_TIMEOUT</code><em class="property"> = 5</em><a class="headerlink" href="#gfhttpva.config.DefaultConfig.PVA_RPC_TIMEOUT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gfhttpva.config.DefaultConfig.TIMEZONE">
+<code class="descname">TIMEZONE</code><em class="property"> = 'Asia/Tokyo'</em><a class="headerlink" href="#gfhttpva.config.DefaultConfig.TIMEZONE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="gfhttpva.config.TestingConfig">
+<em class="property">class </em><code class="descclassname">gfhttpva.config.</code><code class="descname">TestingConfig</code><a class="headerlink" href="#gfhttpva.config.TestingConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#gfhttpva.config.DefaultConfig" title="gfhttpva.config.DefaultConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">gfhttpva.config.DefaultConfig</span></code></a></p>
+<p>Class for test configuration</p>
+<dl class="attribute">
+<dt id="gfhttpva.config.TestingConfig.PVA_RPC_TIMEOUT">
+<code class="descname">PVA_RPC_TIMEOUT</code><em class="property"> = 1</em><a class="headerlink" href="#gfhttpva.config.TestingConfig.PVA_RPC_TIMEOUT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="gfhttpva.config.TestingConfig.TESTING">
+<code class="descname">TESTING</code><em class="property"> = True</em><a class="headerlink" href="#gfhttpva.config.TestingConfig.TESTING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">gfhttpva API</a><ul>
+<li><a class="reference internal" href="#module-gfhttpva">gfhttpva</a></li>
+<li><a class="reference internal" href="#module-gfhttpva.gfhttpva">gfhttpva.gfhttpva</a></li>
+<li><a class="reference internal" href="#module-gfhttpva.pvaapi">gfhttpva.pvaapi</a></li>
+<li><a class="reference internal" href="#module-gfhttpva.exception">gfhttpva.exception</a></li>
+<li><a class="reference internal" href="#module-gfhttpva.timezone">gfhttpva.timezone</a></li>
+<li><a class="reference internal" href="#module-gfhttpva.config">gfhttpva.config</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Welcome to gfhttpva’s documentation!</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/gfhttpva.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to gfhttpva’s documentation!"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">gfhttpva 1.0.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Shinya Sasaki.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.6.
+    </div>
+  </body>
+</html>
