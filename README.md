@@ -4,6 +4,8 @@ This package is API gateway for [generalpvaccess-datasource](https://github.com/
 
 It receives http requests from generalpvaccess-datasource and retrieves data from pvAccess RPC server.
 
+See [docmentation](https://sasaki77.github.io/gfhttpva/)
+
 ## Installing
 
 Before install this package you need to install [PvaPy](https://github.com/epics-base/pvaPy) (> 1.1).
