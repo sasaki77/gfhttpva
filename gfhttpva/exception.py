@@ -13,11 +13,6 @@ class InvalidRequest(Exception):
         status code for error response
     payload : str
         optional payload to give more context for the error
-
-    Methods
-    -------
-    to_dict()
-        return message and payload as dict
     """
 
     status_code = 400

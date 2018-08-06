@@ -78,6 +78,7 @@ def hello_world():
 @cross_origin()
 def find_metrics():
     """search URL fonction to find metric options with pvAccss
+
     Returns
     -------
     flask.Response
@@ -111,6 +112,7 @@ def find_metrics():
 @cross_origin(max_age=600)
 def query_metrics():
     """query URL fonction to get metrics
+
     Returns
     -------
     flask.Response
@@ -166,6 +168,7 @@ def query_metrics():
 @cross_origin(max_age=600)
 def query_annotations():
     """annotations URL fonction to get annotationsj
+
     Returns
     -------
     flask.Response

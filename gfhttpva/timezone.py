@@ -9,13 +9,6 @@ class timezone(object):
     ----------
     tz : pytz.timezone
         timezone
-
-    Methods
-    -------
-    set_tz()
-        set timezone
-    get_tz()
-        get timezone
     """
 
     def __init__(self):
