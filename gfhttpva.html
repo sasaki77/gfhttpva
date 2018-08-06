@@ -172,13 +172,15 @@
 <dl class="function">
 <dt id="gfhttpva.gfhttpva.find_metrics">
 <code class="descclassname">gfhttpva.gfhttpva.</code><code class="descname">find_metrics</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#gfhttpva.gfhttpva.find_metrics" title="Permalink to this definition">¶</a></dt>
-<dd><p>search URL fonction to find metric options with pvAccss
-:returns: json formatted search result response
-:rtype: flask.Response</p>
+<dd><p>search URL fonction to find metric options with pvAccss</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">json formatted search result response</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">flask.Response</td>
+</tr>
 <tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal notranslate"><span class="pre">InvalidRequest</span></code> – if request parameters are missing</td>
 </tr>
 </tbody>
@@ -242,13 +244,15 @@
 <dl class="function">
 <dt id="gfhttpva.gfhttpva.query_annotations">
 <code class="descclassname">gfhttpva.gfhttpva.</code><code class="descname">query_annotations</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#gfhttpva.gfhttpva.query_annotations" title="Permalink to this definition">¶</a></dt>
-<dd><p>annotations URL fonction to get annotationsj
-:returns: json formatted annotations response
-:rtype: flask.Response</p>
+<dd><p>annotations URL fonction to get annotationsj</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">json formatted annotations response</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">flask.Response</td>
+</tr>
 <tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal notranslate"><span class="pre">InvalidRequest</span></code> – if request parameters are missing</td>
 </tr>
 </tbody>
@@ -258,13 +262,15 @@
 <dl class="function">
 <dt id="gfhttpva.gfhttpva.query_metrics">
 <code class="descclassname">gfhttpva.gfhttpva.</code><code class="descname">query_metrics</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#gfhttpva.gfhttpva.query_metrics" title="Permalink to this definition">¶</a></dt>
-<dd><p>query URL fonction to get metrics
-:returns: json formatted metrics response
-:rtype: flask.Response</p>
+<dd><p>query URL fonction to get metrics</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">json formatted metrics response</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">flask.Response</td>
+</tr>
 <tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal notranslate"><span class="pre">InvalidRequest</span></code> – if request parameters are missing</td>
 </tr>
 </tbody>
@@ -549,20 +555,14 @@
 <dd><p><em>str</em> – optional payload to give more context for the error</p>
 </dd></dl>
 
-<dl class="method">
-<dt id="gfhttpva.exception.InvalidRequest.to_dict">
-<code class="descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gfhttpva.exception.InvalidRequest.to_dict" title="Permalink to this definition">¶</a></dt>
-<dd><p>return message and payload as dict</p>
-</dd></dl>
-
 <dl class="attribute">
 <dt>
 <code class="descname">status_code</code><em class="property"> = 400</em></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt>
-<code class="descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dt id="gfhttpva.exception.InvalidRequest.to_dict">
+<code class="descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gfhttpva.exception.InvalidRequest.to_dict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return message and payload as dict</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -593,20 +593,8 @@
 </dd></dl>
 
 <dl class="method">
-<dt id="gfhttpva.timezone.timezone.set_tz">
-<code class="descname">set_tz</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gfhttpva.timezone.timezone.set_tz" title="Permalink to this definition">¶</a></dt>
-<dd><p>set timezone</p>
-</dd></dl>
-
-<dl class="method">
 <dt id="gfhttpva.timezone.timezone.get_tz">
 <code class="descname">get_tz</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#gfhttpva.timezone.timezone.get_tz" title="Permalink to this definition">¶</a></dt>
-<dd><p>get timezone</p>
-</dd></dl>
-
-<dl class="method">
-<dt>
-<code class="descname">get_tz</code><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
 <dd><p>Get timezone</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -621,8 +609,8 @@
 </dd></dl>
 
 <dl class="method">
-<dt>
-<code class="descname">set_tz</code><span class="sig-paren">(</span><em>timezone_name</em><span class="sig-paren">)</span></dt>
+<dt id="gfhttpva.timezone.timezone.set_tz">
+<code class="descname">set_tz</code><span class="sig-paren">(</span><em>timezone_name</em><span class="sig-paren">)</span><a class="headerlink" href="#gfhttpva.timezone.timezone.set_tz" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set timezone with timezone name</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
