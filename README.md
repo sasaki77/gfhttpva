@@ -34,7 +34,7 @@ See [here](http://flask.pocoo.org/) for more flask information.
 
 ## Configuration
 
-Refer config file example [gfhttpva.cfg](gfhttpva.cfg).
+Refer config file example [gfhttpva.cfg](https://github.com/sasaki77/gfhttpva/blob/master/gfhttpva.cfg).
 
 ## pvAccess RPC Server Implementation
 
