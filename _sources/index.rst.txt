@@ -3,23 +3,19 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-gfhttpva - grafana http / pvAccess API gateway
-==============================================
-
-gfhttpva is API gateway for `generalpvaccess-datasource <https://github.com/sasaki77/generalpvaccess-datasource>`_.
-
-It receives http requests from generalpvaccess-datasource and retrieves data from pvAccess RPC server.
+.. mdinclude:: ../README.md
 
 Links
 =====
 
 * `Source (github) <https://github.com/sasaki77/gfhttpva>`_
 
-Documentations
+Documentation
 ==============
 
 .. toctree::
    :maxdepth: 2
+   :caption: gfhttpva API
 
    gfhttpva
 

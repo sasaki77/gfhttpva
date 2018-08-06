@@ -1,6 +1,3 @@
-gfhttpva API
-============
-
 gfhttpva
 ---------------
 
