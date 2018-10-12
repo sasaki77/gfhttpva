@@ -22,6 +22,7 @@ setup(
         'flask',
         'flask-cors',
         'numpy',
+        'pandas',
         'pytz',
     ],
 )

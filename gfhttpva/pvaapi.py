@@ -1,5 +1,8 @@
 from collections import OrderedDict
 
+import numpy as np
+import pandas as pd
+
 import pvaccess as pva
 from exception import InvalidRequest
 
@@ -211,19 +214,18 @@ def valget(ch_name, entity, params, starttime, endtime, labels, nturi):
     except pva.PvaException as e:
         raise InvalidRequest(e.message, status_code=400)
 
-    if hasattr(response, "useNumPyArrays"):
-        response.useNumPyArrays = False
-
     res = response.get()
 
     value = get_value_from_table(res, "value")
     seconds = get_value_from_table(res, "secondsPastEpoch")
     nano = get_value_from_table(res, "nanoseconds")
 
-    time_ms = [sec*1000 + nano//(10**6)
-               for sec, nano in zip(seconds, nano)]
+    time_ms = np.trunc(seconds*1000 + nano//(10**6))
 
-    return zip(list(value), time_ms)
+    datapoints = pd.DataFrame({"value": value, "time": time_ms})
+    datapoints = datapoints[['value', 'time']]
+
+    return datapoints.values.tolist()
 
 
 def valget_table(ch_name, entity, params, starttime, endtime, labels, nturi):
@@ -267,9 +269,6 @@ def valget_table(ch_name, entity, params, starttime, endtime, labels, nturi):
     except pva.PvaException as e:
         raise InvalidRequest(e.message, status_code=400)
 
-    if hasattr(response, "useNumPyArrays"):
-        response.useNumPyArrays = False
-
     res = response.get()
 
     try:
@@ -286,13 +285,18 @@ def valget_table(ch_name, entity, params, starttime, endtime, labels, nturi):
             columns.append({"text": label})
 
     try:
-        rows_T = [res["value"]["column"+str(i)] for i in range(len(columns))]
-        rows = [[row[i] for row in rows_T] for i in range(len(rows_T[0]))]
+        frame_dict = {label: res["value"]["column"+str(i)]
+                      for i, label in enumerate(labels)}
     except KeyError:
         current_app.logger.error("valget_table: value KeyError")
         raise InvalidRequest("RPC returned value is invalid", status_code=400)
 
-    table = [{"columns": columns, "rows": rows, "type": "table"}]
+    frame = pd.DataFrame(frame_dict)
+    frame = frame[labels]
+
+    table = [{"columns": columns,
+              "rows": frame.values.tolist(),
+              "type": "table"}]
 
     return table
 
