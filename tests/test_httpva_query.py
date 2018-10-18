@@ -1,7 +1,10 @@
+import pytest
+
 from .context import gfhttpva
 
 
-def get_query():
+@pytest.fixture
+def query():
     return {
              "panelId": 1,
              "range": {
@@ -29,8 +32,7 @@ def get_query():
            }
 
 
-def test_query_timeserie(client):
-    query = get_query()
+def test_query_timeserie(client, query):
     query["targets"] = [
                         {"target": "long", "refId": "A",
                          "type": "timeserie"},
@@ -70,8 +72,7 @@ def test_query_timeserie(client):
     assert json_data == res
 
 
-def test_query_timeserie_error(client):
-    query = get_query()
+def test_query_timeserie_error(client, query):
     query["targets"] = [
                         {"target": "error", "refId": "A",
                          "type": "timeserie"},
@@ -83,8 +84,7 @@ def test_query_timeserie_error(client):
     assert rv.status_code == 400
 
 
-def test_query_table(client):
-    query = get_query()
+def test_query_table(client, query):
     query["targets"] = [
                         {"target": "long", "refId": "A",
                          "type": "timeserie"},
@@ -114,8 +114,7 @@ def test_query_table(client):
     assert json_data == res
 
 
-def test_query_table_error(client):
-    query = get_query()
+def test_query_table_error(client, query):
     query["targets"] = [
                         {"target": "error", "refId": "A",
                          "type": "table"},
@@ -126,8 +125,7 @@ def test_query_table_error(client):
     assert json_data == res
 
 
-def test_query_invalid_time(client):
-    query = get_query()
+def test_query_invalid_time(client, query):
     query["range"]["from"] = "2018-13-01T00:00:00:.000Z"
     rv = client.post("/query", json=query)
     json_data = rv.get_json()
@@ -135,8 +133,7 @@ def test_query_invalid_time(client):
     assert json_data == res
 
 
-def test_query_invalid_query_target(client):
-    query = get_query()
+def test_query_invalid_query_target(client, query):
     del query["targets"]
     rv = client.post("/query", json=query)
     json_data = rv.get_json()
@@ -144,8 +141,7 @@ def test_query_invalid_query_target(client):
     assert json_data == res
 
 
-def test_query_invalid_query_type(client):
-    query = get_query()
+def test_query_invalid_query_type(client, query):
     del query["targets"][0]["type"]
     rv = client.post("/query", json=query)
     json_data = rv.get_json()
@@ -153,8 +149,7 @@ def test_query_invalid_query_type(client):
     assert json_data == res
 
 
-def test_query_no_target(client):
-    query = get_query()
+def test_query_no_target(client, query):
     del query["targets"][0]["target"]
     rv = client.post("/query", json=query)
     json_data = rv.get_json()
@@ -171,8 +166,7 @@ def test_query_no_target(client):
     assert json_data == res
 
 
-def test_query_empyt_ch(client):
-    query = get_query()
+def test_query_empyt_ch(client, query):
     query["jsonData"]["ch"] = ""
     rv = client.post("/query", json=query)
     json_data = rv.get_json()
@@ -180,8 +174,7 @@ def test_query_empyt_ch(client):
     assert json_data == res
 
 
-def test_query_not_exist_ch(client):
-    query = get_query()
+def test_query_not_exist_ch(client, query):
     query["jsonData"]["ch"] = "NOT:EXIST:CH"
     rv = client.post("/query", json=query)
     json_data = rv.get_json()
@@ -189,8 +182,7 @@ def test_query_not_exist_ch(client):
     assert json_data == res
 
 
-def test_query_not_exist_ch_table(client):
-    query = get_query()
+def test_query_not_exist_ch_table(client, query):
     query["jsonData"]["ch"] = "NOT:EXIST:CH"
     query["targets"] = [{"target": "table", "refId": "B", "type": "table"}]
     rv = client.post("/query", json=query)
@@ -199,8 +191,7 @@ def test_query_not_exist_ch_table(client):
     assert json_data == res
 
 
-def test_query_coincident_field(client):
-    query = get_query()
+def test_query_coincident_field(client, query):
     query["jsonData"]["ch"] = "ET_SASAKI:GFHTTPVA:TEST:get_consistent_field"
     rv = client.post("/query", json=query)
     json_data = rv.get_json()
@@ -215,8 +206,7 @@ def test_query_coincident_field(client):
     assert json_data == res
 
 
-def test_query_error_field(client):
-    query = get_query()
+def test_query_error_field(client, query):
     query["jsonData"]["ch"] = "ET_SASAKI:GFHTTPVA:TEST:get_inconsistent_field"
     rv = client.post("/query", json=query)
     json_data = rv.get_json()
@@ -224,8 +214,7 @@ def test_query_error_field(client):
     assert json_data == res
 
 
-def test_query_error_value(client):
-    query = get_query()
+def test_query_error_value(client, query):
     query["jsonData"]["ch"] = "ET_SASAKI:GFHTTPVA:TEST:get_illegal_field"
     rv = client.post("/query", json=query)
     json_data = rv.get_json()
@@ -233,8 +222,7 @@ def test_query_error_value(client):
     assert json_data == res
 
 
-def test_query_nturi_style(client):
-    query = get_query()
+def test_query_nturi_style(client, query):
     query["jsonData"]["nturi_style"] = True
     query["jsonData"]["ch"] = "ET_SASAKI:GFHTTPVA:TEST:get_nturi_style"
     rv = client.post("/query", json=query)

@@ -1,7 +1,10 @@
+import pytest
+
 from .context import gfhttpva
 
 
-def get_annotation_query():
+@pytest.fixture
+def query():
     return {
              "range": {
                "from": "2018-01-01T00:00:00.000Z",
@@ -28,8 +31,7 @@ def get_annotation_query():
            }
 
 
-def test_annottaion(client):
-    query = get_annotation_query()
+def test_annottaion(client, query):
     rv = client.post("/annotations", json=query)
     json_data = rv.get_json()
     res = [
@@ -55,8 +57,7 @@ def test_annottaion(client):
     assert json_data == res
 
 
-def test_annottaion_error(client):
-    query = get_annotation_query()
+def test_annottaion_error(client, query):
     query["annotation"]["entity"] = "error"
     rv = client.post("/annotations", json=query)
     json_data = rv.get_json()
@@ -64,8 +65,7 @@ def test_annottaion_error(client):
     assert json_data == res
 
 
-def test_annotation_invalid_query(client):
-    query = get_annotation_query()
+def test_annotation_invalid_query(client, query):
     del query["annotation"]
     rv = client.post("/annotations", json=query)
     json_data = rv.get_json()
@@ -73,8 +73,7 @@ def test_annotation_invalid_query(client):
     assert json_data == res
 
 
-def test_annotation_empty_ch(client):
-    query = get_annotation_query()
+def test_annotation_empty_ch(client, query):
     query["jsonData"]["ch"] = ""
     rv = client.post("/annotations", json=query)
     json_data = rv.get_json()
@@ -82,8 +81,7 @@ def test_annotation_empty_ch(client):
     assert json_data == res
 
 
-def test_annotation_not_exist_ch(client):
-    query = get_annotation_query()
+def test_annotation_not_exist_ch(client, query):
     query["jsonData"]["ch"] = "NOT:EXIST:CH"
     rv = client.post("/annotations", json=query)
     json_data = rv.get_json()

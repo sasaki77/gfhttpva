@@ -1,15 +1,15 @@
+import pytest
 from .context import gfhttpva
 
 
-def get_search_query():
+@pytest.fixture
+def query():
     query = {"ch": "ET_SASAKI:GFHTTPVA:TEST:search",
              "target": "", "name": "entity", "nturi_style": False}
     return query
 
 
-def test_search(client):
-    query = get_search_query()
-
+def test_search(client, query):
     rv = client.post("/search", json=query)
     json_data = rv.get_json()
     res = ["long", "float", "string", "str"]
@@ -28,8 +28,7 @@ def test_search(client):
     assert json_data == res
 
 
-def test_search_error(client):
-    query = get_search_query()
+def test_search_error(client, query):
     query["name"] = "error"
 
     rv = client.post("/search", json=query)
@@ -38,8 +37,7 @@ def test_search_error(client):
     assert json_data == res
 
 
-def test_search_invalid_query(client):
-    query = get_search_query()
+def test_search_invalid_query(client, query):
     del query["target"]
     del query["name"]
     del query["nturi_style"]
@@ -49,8 +47,7 @@ def test_search_invalid_query(client):
     assert json_data == res
 
 
-def test_search_empty_ch(client):
-    query = get_search_query()
+def test_search_empty_ch(client, query):
     query["ch"] = ""
     rv = client.post("/search", json=query)
     json_data = rv.get_json()
@@ -58,8 +55,7 @@ def test_search_empty_ch(client):
     assert json_data == res
 
 
-def test_search_not_exist_ch(client):
-    query = get_search_query()
+def test_search_not_exist_ch(client, query):
     query["ch"] = "NOT:EXIST:CH"
     rv = client.post("/search", json=query)
     json_data = rv.get_json()
@@ -67,8 +63,7 @@ def test_search_not_exist_ch(client):
     assert json_data == res
 
 
-def test_search_nturi_style(client):
-    query = get_search_query()
+def test_search_nturi_style(client, query):
     query["ch"] = "ET_SASAKI:GFHTTPVA:TEST:search_nturi_style"
     query["nturi_style"] = True
     rv = client.post("/search", json=query)
