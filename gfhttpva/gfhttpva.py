@@ -101,7 +101,8 @@ def find_metrics():
         name = req["name"] if "name" in req else "entity"
         nturi = req["nturi_style"]
     except KeyError:
-        raise InvalidRequest("Search request invalid", status_code=400)
+        raise InvalidRequest("Search request invalid", status_code=400,
+                             details={"request": req})
 
     res = get_search(ch_name, entity, name, nturi)
 
@@ -139,7 +140,8 @@ def query_metrics():
                   "end": req["jsonData"]["end_label"]}
         nturi = req["jsonData"]["nturi_style"]
     except (KeyError, IndexError) as e:
-        raise InvalidRequest("Invalid query", status_code=400)
+        raise InvalidRequest("Invalid query", status_code=400,
+                             details={"request": req})
 
     res = []
     for target in targets:
@@ -149,7 +151,8 @@ def query_metrics():
         try:
             ttype = target["type"]
         except KeyError:
-            raise InvalidRequest("Invalid query", status_code=400)
+            raise InvalidRequest("Invalid query", status_code=400,
+                                 details={"request": req})
 
         if ttype == "table":
             table = valget_table(ch_name, entity, params, starttime,
@@ -197,7 +200,8 @@ def query_annotations():
                   "end": req["jsonData"]["end_label"]}
         nturi = req["jsonData"]["nturi_style"]
     except (KeyError, IndexError) as e:
-        raise InvalidRequest("Invalid query", status_code=400)
+        raise InvalidRequest("Invalid query", status_code=400,
+                             details={"request": req})
 
     res = get_annotation(ch_name, ann, entity, params, starttime,
                          endtime, labels, nturi)

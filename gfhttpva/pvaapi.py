@@ -149,7 +149,10 @@ def get_value_from_table(table, key):
             return table["value"][index]
     except (KeyError, ValueError, TypeError) as e:
         current_app.logger.error("get_value_from_table: KeyError")
-        raise InvalidRequest("RPC returned value is invalid", status_code=400)
+        details = {"request key": key, "RPC return": str(table)}
+        raise InvalidRequest("RPC return has no requested key",
+                             status_code=400,
+                             details=details)
 
 
 def check_ch_name(ch_name):
@@ -168,7 +171,7 @@ def check_ch_name(ch_name):
 
     if not ch_name:
         current_app.logger.error("valget: Empty ch name")
-        raise InvalidRequest("RPC ch name is invalid", status_code=400)
+        raise InvalidRequest("RPC ch name is empty", status_code=400)
 
 
 def valget(ch_name, entity, params, starttime, endtime, labels, nturi):
@@ -210,7 +213,8 @@ def valget(ch_name, entity, params, starttime, endtime, labels, nturi):
     try:
         response = rpc.invoke(request, TIMEOUT)
     except pva.PvaException as e:
-        raise InvalidRequest(e.message, status_code=400)
+        raise InvalidRequest(e.message, status_code=400,
+                             details={"request": str(request), "ch": ch_name})
 
     res = response.get()
 
@@ -265,7 +269,8 @@ def valget_table(ch_name, entity, params, starttime, endtime, labels, nturi):
     try:
         response = rpc.invoke(request, TIMEOUT)
     except pva.PvaException as e:
-        raise InvalidRequest(e.message, status_code=400)
+        raise InvalidRequest(e.message, status_code=400,
+                             details={"request": str(request), "ch": ch_name})
 
     res = response.get()
 
@@ -273,7 +278,9 @@ def valget_table(ch_name, entity, params, starttime, endtime, labels, nturi):
         labels = res["labels"]
     except KeyError:
         current_app.logger.error("valget_table: label KeyError")
-        raise InvalidRequest("RPC returned labels is invalid", status_code=400)
+        raise InvalidRequest("RPC returned value has no labels",
+                             status_code=400,
+                             details={"RPC return": str(res)})
 
     columns = []
     for label in labels:
@@ -287,7 +294,9 @@ def valget_table(ch_name, entity, params, starttime, endtime, labels, nturi):
                       for i, label in enumerate(labels)}
     except KeyError:
         current_app.logger.error("valget_table: value KeyError")
-        raise InvalidRequest("RPC returned value is invalid", status_code=400)
+        raise InvalidRequest("RPC returned value key error",
+                             status_code=400,
+                             details={"RPC return": str(res)})
 
     frame = pd.DataFrame(frame_dict)
     frame = frame[labels]
@@ -341,7 +350,8 @@ def get_annotation(ch_name, annotation, entity, params,
     try:
         response = rpc.invoke(request, TIMEOUT)
     except pva.PvaException as e:
-        raise InvalidRequest(e.message, status_code=400)
+        raise InvalidRequest(e.message, status_code=400,
+                             details={"request": str(request), "ch": ch_name})
 
     if hasattr(response, "useNumPyArrays"):
         response.useNumPyArrays = False
@@ -399,7 +409,8 @@ def get_search(ch_name, entity, name, nturi):
     try:
         response = rpc.invoke(request, TIMEOUT)
     except pva.PvaException as e:
-        raise InvalidRequest(e.message, status_code=400)
+        raise InvalidRequest(e.message, status_code=400,
+                             details={"request": str(request), "ch": ch_name})
 
     if hasattr(response, "useNumPyArrays"):
         response.useNumPyArrays = False
@@ -408,6 +419,8 @@ def get_search(ch_name, entity, name, nturi):
         res = response.getScalarArray("value")
     except (pva.FieldNotFound, pva.InvalidRequest):
         current_app.logger.error("get_search: response get error")
-        raise InvalidRequest("RPC returned value is invalid", status_code=400)
+        raise InvalidRequest("RPC returned value is invalid",
+                             status_code=400,
+                             details={"RPC return": str(response)})
 
     return res

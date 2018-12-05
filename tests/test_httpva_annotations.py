@@ -61,7 +61,9 @@ def test_annottaion_error(client, query):
     query["annotation"]["entity"] = "error"
     rv = client.post("/annotations", json=query)
     json_data = rv.get_json()
-    res = {'message': 'RPC returned value is invalid'}
+    res = {'message': 'RPC return has no requested key'}
+    res["details"] = {'RPC return': "{'value': 1000}",
+                      'request key': 'time'}
     assert json_data == res
 
 
@@ -70,6 +72,7 @@ def test_annotation_invalid_query(client, query):
     rv = client.post("/annotations", json=query)
     json_data = rv.get_json()
     res = {'message': 'Invalid query'}
+    res["details"] = {"request": query}
     assert json_data == res
 
 
@@ -77,7 +80,8 @@ def test_annotation_empty_ch(client, query):
     query["jsonData"]["ch"] = ""
     rv = client.post("/annotations", json=query)
     json_data = rv.get_json()
-    res = {'message': 'RPC ch name is invalid'}
+    res = {'message': 'RPC ch name is empty'}
+    res["details"] = {}
     assert json_data == res
 
 
@@ -86,4 +90,8 @@ def test_annotation_not_exist_ch(client, query):
     rv = client.post("/annotations", json=query)
     json_data = rv.get_json()
     res = {'message': 'connection timeout'}
+    request = ("structure \n    string endtime 2018-01-01T15:00:00\n    "
+               "string starttime 2018-01-01T09:00:00\n    "
+               "string entity foobar\n")
+    res["details"] = {'ch': 'NOT:EXIST:CH', 'request': request}
     assert json_data == res

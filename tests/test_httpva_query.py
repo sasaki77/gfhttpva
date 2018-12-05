@@ -79,7 +79,9 @@ def test_query_timeserie_error(client, query):
                        ]
     rv = client.post("/query", json=query)
     json_data = rv.get_json()
-    res = {'message': 'RPC returned value is invalid'}
+    res = {'message': 'RPC return has no requested key'}
+    res["details"] = {'RPC return': "{'value': 1000}",
+                      'request key': 'value'}
     assert json_data == res
     assert rv.status_code == 400
 
@@ -121,7 +123,8 @@ def test_query_table_error(client, query):
                        ]
     rv = client.post("/query", json=query)
     json_data = rv.get_json()
-    res = {'message': 'RPC returned labels is invalid'}
+    res = {'message': 'RPC returned value has no labels'}
+    res["details"] = {'RPC return': "{'value': 1000}"}
     assert json_data == res
 
 
@@ -130,6 +133,7 @@ def test_query_invalid_time(client, query):
     rv = client.post("/query", json=query)
     json_data = rv.get_json()
     res = {'message': 'Invalid query time'}
+    res["details"] = {}
     assert json_data == res
 
 
@@ -138,6 +142,7 @@ def test_query_invalid_query_target(client, query):
     rv = client.post("/query", json=query)
     json_data = rv.get_json()
     res = {'message': 'Invalid query'}
+    res["details"] = {"request": query}
     assert json_data == res
 
 
@@ -146,6 +151,7 @@ def test_query_invalid_query_type(client, query):
     rv = client.post("/query", json=query)
     json_data = rv.get_json()
     res = {'message': 'Invalid query'}
+    res["details"] = {"request": query}
     assert json_data == res
 
 
@@ -170,7 +176,8 @@ def test_query_empyt_ch(client, query):
     query["jsonData"]["ch"] = ""
     rv = client.post("/query", json=query)
     json_data = rv.get_json()
-    res = {'message': 'RPC ch name is invalid'}
+    res = {'message': 'RPC ch name is empty'}
+    res["details"] = {}
     assert json_data == res
 
 
@@ -179,6 +186,12 @@ def test_query_not_exist_ch(client, query):
     rv = client.post("/query", json=query)
     json_data = rv.get_json()
     res = {'message': 'connection timeout'}
+    request = ("structure \n    "
+               "string endtime 2018-01-01T15:00:00\n    "
+               "string param1 0\n    "
+               "string starttime 2018-01-01T09:00:00\n    "
+               "string entity long\n")
+    res["details"] = {'ch': 'NOT:EXIST:CH', 'request': request}
     assert json_data == res
 
 
@@ -188,6 +201,10 @@ def test_query_not_exist_ch_table(client, query):
     rv = client.post("/query", json=query)
     json_data = rv.get_json()
     res = {'message': 'connection timeout'}
+    request = ("structure \n    string endtime 2018-01-01T15:00:00\n    "
+               "string starttime 2018-01-01T09:00:00\n    "
+               "string entity table\n")
+    res["details"] = {'ch': 'NOT:EXIST:CH', 'request': request}
     assert json_data == res
 
 
@@ -210,7 +227,12 @@ def test_query_error_field(client, query):
     query["jsonData"]["ch"] = "ET_SASAKI:GFHTTPVA:TEST:get_inconsistent_field"
     rv = client.post("/query", json=query)
     json_data = rv.get_json()
-    res = {'message': 'RPC returned value is invalid'}
+    res = {'message': 'RPC return has no requested key'}
+    rpc_val = ("{'labels': ['value', 'secondsPastEpoch', 'nanoseconds'], "
+               "'value': {'error1': array([0], dtype=uint64), "
+               "'error2': array([0], dtype=uint64), "
+               "'error3': array([0], dtype=uint64)}}")
+    res["details"] = {'RPC return': rpc_val, 'request key': 'value'}
     assert json_data == res
 
 
@@ -218,7 +240,12 @@ def test_query_error_value(client, query):
     query["jsonData"]["ch"] = "ET_SASAKI:GFHTTPVA:TEST:get_illegal_field"
     rv = client.post("/query", json=query)
     json_data = rv.get_json()
-    res = {'message': 'RPC returned value is invalid'}
+    res = {'message': 'RPC return has no requested key'}
+    rpc_val = ("{'labels': ['value', 'seconds', 'nanoseconds'], "
+               "'value': {'seconds': array([0], dtype=uint64), "
+               "'nanoseconds': array([0], dtype=uint64), "
+               "'value': array([0], dtype=uint64)}}")
+    res["details"] = {'RPC return': rpc_val, 'request key': 'secondsPastEpoch'}
     assert json_data == res
 
 

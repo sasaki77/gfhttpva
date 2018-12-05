@@ -34,6 +34,7 @@ def test_search_error(client, query):
     rv = client.post("/search", json=query)
     json_data = rv.get_json()
     res = {'message': 'RPC returned value is invalid'}
+    res["details"] = {'RPC return': 'structure \n    int value 1000\n'}
     assert json_data == res
 
 
@@ -44,6 +45,7 @@ def test_search_invalid_query(client, query):
     rv = client.post("/search", json=query)
     json_data = rv.get_json()
     res = {'message': 'Search request invalid'}
+    res["details"] = {"request": query}
     assert json_data == res
 
 
@@ -51,7 +53,8 @@ def test_search_empty_ch(client, query):
     query["ch"] = ""
     rv = client.post("/search", json=query)
     json_data = rv.get_json()
-    res = {'message': 'RPC ch name is invalid'}
+    res = {'message': 'RPC ch name is empty'}
+    res["details"] = {}
     assert json_data == res
 
 
@@ -60,6 +63,8 @@ def test_search_not_exist_ch(client, query):
     rv = client.post("/search", json=query)
     json_data = rv.get_json()
     res = {'message': 'connection timeout'}
+    request = 'structure \n    string name entity\n    string entity \n'
+    res["details"] = {'ch': 'NOT:EXIST:CH', 'request': request}
     assert json_data == res
 
 
