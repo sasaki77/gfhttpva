@@ -130,7 +130,7 @@ epics:nt/NTTable:1.0
     structure value
         ulong[] column0 [1526439600000] // unixtimestamp in milliseconds
         string[] column1 [Title]
-        string[] column2 [tag1 tag2]
+        string[] column2 [tag1,tag2]
         string[] column3 [Text]
 ```
 

@@ -369,7 +369,7 @@ def get_annotation(ch_name, annotation, entity, params,
                 "annotation": str(annotation),
                 "time": int(tm),
                 "title": str(ti),
-                "tags": str(tag).split(),
+                "tags": str(tag).split(","),
                 "text": str(tex)
               }
         annotations.append(ann)
