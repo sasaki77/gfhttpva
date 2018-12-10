@@ -240,7 +240,7 @@ class PvaServer():
 
         time = [(int(end_sec) + int(str_sec))//2*1000, end_sec*1000]
         title = [entity, entity+"2"]
-        tags = ["test1 test2", "test1"]
+        tags = ["test1,test2", "test1"]
         text = ["test text", "test text2"]
 
         vals = OrderedDict([("column0", [pva.ULONG]),
