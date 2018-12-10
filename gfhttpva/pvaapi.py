@@ -225,6 +225,8 @@ def valget(ch_name, entity, params, starttime, endtime, labels, nturi):
     time_ms = np.trunc(seconds*1000 + nano//(10**6))
 
     datapoints = pd.DataFrame({"value": value, "time": time_ms})
+
+    # order of datapoints' columns  must be value, time for tolist
     datapoints = datapoints[['value', 'time']]
 
     return datapoints.values.tolist()
@@ -299,6 +301,8 @@ def valget_table(ch_name, entity, params, starttime, endtime, labels, nturi):
                              details={"RPC return": str(res)})
 
     frame = pd.DataFrame(frame_dict)
+
+    # order of frame's columns must be labels' order for tolist
     frame = frame[labels]
 
     table = [{"columns": columns,
