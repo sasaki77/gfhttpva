@@ -1,3 +1,5 @@
+from threading import RLock
+
 import numpy as np
 import pandas as pd
 
@@ -15,10 +17,39 @@ class Pvaapi(object):
     ----------
     timeout : float
         timeout for pvAccess RPC in seconds
+    _clients : dict
+        pvAccess RpcClient for ch name
+    _lock : threading.RLock
+        lock for _clients
     """
 
     def __init__(self, timeout=1):
         self.timeout = timeout
+        self._clients = {}
+        self._lock = RLock()
+
+    def _get_rpc_client(self, ch_name):
+        """Get pvAccess RPC Client
+
+        Parameters
+        ----------
+        ch_name : str
+            pvAccess channel name
+
+        Returns
+        -------
+        pvaccess.RpcClient
+            pvAccess RPC Client for channel name
+        """
+        self._check_ch_name(ch_name)
+        name = str(ch_name)
+
+        with self._lock:
+            if name not in self._clients:
+                self._clients[name] = pva.RpcClient(name)
+            client = self._clients[name]
+
+        return client
 
     def _create_request(self, entity, params, starttime, endtime,
                         labels, path="", nturi=False):
@@ -215,8 +246,7 @@ class Pvaapi(object):
             if failed to call pvAccess RPC
         """
 
-        self._check_ch_name(ch_name)
-        rpc = pva.RpcClient(str(ch_name))
+        rpc = self._get_rpc_client(str(ch_name))
 
         request = self._create_request(entity, params, starttime,
                                        endtime, labels, ch_name, nturi)
@@ -275,8 +305,7 @@ class Pvaapi(object):
             if failed to call pvAccess RPC
         """
 
-        self._check_ch_name(ch_name)
-        rpc = pva.RpcClient(str(ch_name))
+        rpc = self._get_rpc_client(str(ch_name))
 
         request = self._create_request(entity, params, starttime,
                                        endtime, labels, ch_name, nturi)
@@ -359,8 +388,7 @@ class Pvaapi(object):
             if failed to call pvAccess RPC
         """
 
-        self._check_ch_name(ch_name)
-        rpc = pva.RpcClient(str(ch_name))
+        rpc = self._get_rpc_client(str(ch_name))
 
         request = self._create_request(entity, params, starttime,
                                        endtime, labels, ch_name, nturi)
@@ -420,8 +448,7 @@ class Pvaapi(object):
             if failed to call pvAccess RPC
         """
 
-        self._check_ch_name(ch_name)
-        rpc = pva.RpcClient(str(ch_name))
+        rpc = self._get_rpc_client(str(ch_name))
 
         request = self._create_search_request(entity, name, ch_name, nturi)
         try:
