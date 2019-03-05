@@ -9,4 +9,4 @@ class PvaRpcTimeoutConfig(config.DefaultConfig):
 
 def test_set_timeout():
     app = gfhttpva.create_app(PvaRpcTimeoutConfig)
-    assert pvaapi.TIMEOUT == 3
+    assert pvaapi.timeout == 3

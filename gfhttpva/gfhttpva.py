@@ -5,7 +5,7 @@ import pytz
 from flask import Blueprint, current_app, request, jsonify, json
 from flask_cors import cross_origin
 
-from pvaapi import valget, valget_table, get_annotation, get_search
+from pvaapi import pvaapi
 from exception import InvalidRequest
 from timezone import timezone
 
@@ -104,7 +104,7 @@ def find_metrics():
         raise InvalidRequest("Search request invalid", status_code=400,
                              details={"request": req})
 
-    res = get_search(ch_name, entity, name, nturi)
+    res = pvaapi.get_search(ch_name, entity, name, nturi)
 
     return jsonify(res)
 
@@ -155,12 +155,12 @@ def query_metrics():
                                  details={"request": req})
 
         if ttype == "table":
-            table = valget_table(ch_name, entity, params, starttime,
-                                 endtime, labels, nturi)
+            table = pvaapi.valget_table(ch_name, entity, params, starttime,
+                                        endtime, labels, nturi)
             return jsonify(table)
 
-        datapoints = valget(ch_name, entity, params, starttime,
-                            endtime, labels, nturi)
+        datapoints = pvaapi.valget(ch_name, entity, params, starttime,
+                                   endtime, labels, nturi)
         res_frame = {"target": entity, "datapoints": datapoints}
         res.append(res_frame)
 
@@ -203,8 +203,8 @@ def query_annotations():
         raise InvalidRequest("Invalid query", status_code=400,
                              details={"request": req})
 
-    res = get_annotation(ch_name, ann, entity, params, starttime,
-                         endtime, labels, nturi)
+    res = pvaapi.get_annotation(ch_name, ann, entity, params, starttime,
+                                endtime, labels, nturi)
     return jsonify(res)
 
 

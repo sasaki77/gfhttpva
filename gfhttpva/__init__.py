@@ -8,7 +8,7 @@ from flask_cors import CORS
 
 from .config import DefaultConfig
 from .gfhttpva import gfhttpva, TIMEZONE
-from . import pvaapi
+from .pvaapi import pvaapi
 
 
 def create_app(config_obj="gfhttpva.config.DefaultConfig"):
@@ -50,7 +50,7 @@ def create_app(config_obj="gfhttpva.config.DefaultConfig"):
         TIMEZONE.set_tz("UTC")
 
     # settings for pvAccess
-    pvaapi.TIMEOUT = app.config["PVA_RPC_TIMEOUT"]
+    pvaapi.timeout = app.config["PVA_RPC_TIMEOUT"]
 
     app.register_blueprint(gfhttpva)
 
