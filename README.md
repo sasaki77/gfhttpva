@@ -8,10 +8,6 @@ See [docmentation](https://sasaki77.github.io/gfhttpva/)
 
 ## Installing
 
-Before install this package you need to install [PvaPy](https://github.com/epics-base/pvaPy) (> 1.1).
-
-After install PvaPy, clone this package and install it.
-
 ```bash
 # clone the repository
 git clone https://github.com/sasaki77/gfhttpva
