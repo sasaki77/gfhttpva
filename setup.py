@@ -24,5 +24,6 @@ setup(
         'numpy',
         'pandas',
         'pytz',
+        'pvapy',
     ],
 )
