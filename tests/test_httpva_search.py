@@ -63,7 +63,7 @@ def test_search_not_exist_ch(client, query):
     rv = client.post("/search", json=query)
     json_data = rv.get_json()
     res = {'message': 'connection timeout'}
-    request = 'structure \n    string name entity\n    string entity \n'
+    request =  'structure \n    string entity \n    string name entity\n'
     res["details"] = {'ch': 'NOT:EXIST:CH', 'request': request}
     assert json_data == res
 

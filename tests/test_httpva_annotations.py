@@ -90,8 +90,8 @@ def test_annotation_not_exist_ch(client, query):
     rv = client.post("/annotations", json=query)
     json_data = rv.get_json()
     res = {'message': 'connection timeout'}
-    request = ("structure \n    string endtime 2018-01-01T15:00:00\n    "
-               "string starttime 2018-01-01T09:00:00\n    "
-               "string entity foobar\n")
+    request = ('structure \n    string entity foobar\n    '
+               'string starttime 2018-01-01T09:00:00\n    '
+               'string endtime 2018-01-01T15:00:00\n')
     res["details"] = {'ch': 'NOT:EXIST:CH', 'request': request}
     assert json_data == res

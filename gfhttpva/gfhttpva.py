@@ -5,9 +5,9 @@ import pytz
 from flask import Blueprint, current_app, request, jsonify, json
 from flask_cors import cross_origin
 
-from pvaapi import pvaapi
-from exception import InvalidRequest
-from timezone import timezone
+from .pvaapi import pvaapi
+from .exception import InvalidRequest
+from .timezone import timezone
 
 
 gfhttpva = Blueprint("gfhttpva", __name__)

@@ -3,8 +3,6 @@ import time
 import argparse
 from datetime import datetime
 
-from collections import OrderedDict
-
 import pytz
 
 import pvaccess as pva
@@ -75,18 +73,18 @@ class PvaServer():
             nano.append(0)
         val_type = TYPES.get(entity, pva.LONG)
 
-        vals = OrderedDict([("column0", [val_type]),
-                            ("column1", [pva.ULONG]),
-                            ("column2", [pva.ULONG])])
-        table = pva.PvObject(OrderedDict({"labels": [pva.STRING],
-                                          "value": vals}
-                                         ),
+        vals = {"column0": [val_type],
+                "column1": [pva.ULONG],
+                "column2": [pva.ULONG]
+                }
+        table = pva.PvObject({"labels": [pva.STRING], "value": vals},
                              "epics:nt/NTTable:1.0")
         table.setScalarArray("labels", ["value", "secondsPastEpoch",
                                         "nanoseconds"])
-        table.setStructure("value", OrderedDict({"column0": value,
-                                                 "column1": seconds,
-                                                 "column2": nano}))
+        table.setStructure("value", {"column0": value,
+                                     "column1": seconds,
+                                     "column2": nano}
+                           )
 
         return table
 
@@ -101,25 +99,25 @@ class PvaServer():
         time = ["2016-04-04T08:10:14", "2016-04-04T08:10:15",
                 "2016-04-04T08:10:16"]
 
-        vals = OrderedDict([("column0", [pva.DOUBLE]),
-                            ("column1", [pva.ULONG]),
-                            ("column2", [pva.ULONG]),
-                            ("column3", [pva.ULONG]),
-                            ("column4", [pva.ULONG]),
-                            ("column5", [pva.STRING])])
-        table = pva.PvObject(OrderedDict({"labels": [pva.STRING],
-                                          "value": vals}
-                                         ),
+        vals = {"column0": [pva.DOUBLE],
+                "column1": [pva.ULONG],
+                "column2": [pva.ULONG],
+                "column3": [pva.ULONG],
+                "column4": [pva.ULONG],
+                "column5": [pva.STRING]
+                }
+        table = pva.PvObject({"labels": [pva.STRING], "value": vals},
                              "epics:nt/NTTable:1.0")
         table.setScalarArray("labels", ["value", "secondsPastEpoch",
                                         "nanoseconds", "status",
                                         "severity", "time"])
-        table.setStructure("value", OrderedDict({"column0": value,
-                                                 "column1": seconds,
-                                                 "column2": nano,
-                                                 "column3": status,
-                                                 "column4": severity,
-                                                 "column5": time}))
+        table.setStructure("value", {"column0": value,
+                                     "column1": seconds,
+                                     "column2": nano,
+                                     "column3": status,
+                                     "column4": severity,
+                                     "column5": time}
+                           )
 
         return table
 
@@ -144,48 +142,47 @@ class PvaServer():
         return table
 
     def get_consistent_field(self, x):
-        vals = OrderedDict([("value", [pva.ULONG]),
-                            ("secondsPastEpoch", [pva.ULONG]),
-                            ("nanoseconds", [pva.ULONG])])
-        table = pva.PvObject(OrderedDict({"labels": [pva.STRING],
-                                          "value": vals}
-                                         ),
+        vals = {"value": [pva.ULONG],
+                "secondsPastEpoch": [pva.ULONG],
+                "nanoseconds": [pva.ULONG],
+                }
+        table = pva.PvObject({"labels": [pva.STRING], "value": vals},
                              "epics:nt/NTTable:1.0")
         table.setScalarArray("labels", ["value", "secondsPastEpoch",
                                         "nanoseconds"])
-        table.setStructure("value", OrderedDict({"value": [0],
-                                                 "secondsPastEpoch": [0],
-                                                 "nanoseconds": [0]}))
+        table.setStructure("value", {"value": [0],
+                                     "secondsPastEpoch": [0],
+                                     "nanoseconds": [0]})
         return table
 
     def get_inconsistent_field(self, x):
-        vals = OrderedDict([("error1", [pva.ULONG]),
-                            ("error2", [pva.ULONG]),
-                            ("error3", [pva.ULONG])])
-        table = pva.PvObject(OrderedDict({"labels": [pva.STRING],
-                                          "value": vals}
-                                         ),
+        vals = {"error1": [pva.ULONG],
+                "error2": [pva.ULONG],
+                "error3": [pva.ULONG]
+                }
+        table = pva.PvObject({"labels": [pva.STRING], "value": vals},
                              "epics:nt/NTTable:1.0")
         table.setScalarArray("labels", ["value", "secondsPastEpoch",
                                         "nanoseconds"])
-        table.setStructure("value", OrderedDict({"error1": [0],
-                                                 "error2": [0],
-                                                 "error3": [0]}))
+        table.setStructure("value", {"error1": [0],
+                                     "error2": [0],
+                                     "error3": [0]}
+                           )
         return table
 
     def get_illegal_field(self, x):
-        vals = OrderedDict([("value", [pva.ULONG]),
-                            ("seconds", [pva.ULONG]),
-                            ("nanoseconds", [pva.ULONG])])
-        table = pva.PvObject(OrderedDict({"labels": [pva.STRING],
-                                          "value": vals}
-                                         ),
-                             "epics:nt/NTTable:1.0")
+        vals = {"value": [pva.ULONG],
+                "seconds": [pva.ULONG],
+                "nanoseconds": [pva.ULONG]
+                }
+        table = pva.PvObject({"labels": [pva.STRING], "value": vals},
+                              "epics:nt/NTTable:1.0")
         table.setScalarArray("labels", ["value", "seconds",
                                         "nanoseconds"])
-        table.setStructure("value", OrderedDict({"value": [0],
-                                                 "seconds": [0],
-                                                 "nanoseconds": [0]}))
+        table.setStructure("value", {"value": [0],
+                                     "seconds": [0],
+                                     "nanoseconds": [0]}
+                           )
         return table
 
     def search(self, x):
@@ -243,19 +240,19 @@ class PvaServer():
         tags = ["test1,test2", "test1"]
         text = ["test text", "test text2"]
 
-        vals = OrderedDict([("column0", [pva.ULONG]),
-                            ("column1", [pva.STRING]),
-                            ("column2", [pva.STRING]),
-                            ("column3", [pva.STRING])])
-        table = pva.PvObject(OrderedDict({"labels": [pva.STRING],
-                                          "value": vals}
-                                         ),
+        vals = {"column0": [pva.ULONG],
+                "column1": [pva.STRING],
+                "column2": [pva.STRING],
+                "column3": [pva.STRING]
+                }
+        table = pva.PvObject({"labels": [pva.STRING], "value": vals},
                              "epics:nt/NTTable:1.0")
         table.setScalarArray("labels", ["time", "title", "tags", "text"])
-        table.setStructure("value", OrderedDict({"column0": time,
-                                                 "column1": title,
-                                                 "column2": tags,
-                                                 "column3": text}))
+        table.setStructure("value", {"column0": time,
+                                     "column1": title,
+                                     "column2": tags,
+                                     "column3": text}
+                           )
 
         return table
 
@@ -264,5 +261,5 @@ class PvaServer():
         try:
             dt = datetime.strptime(iso_str, "%Y-%m-%dT%H:%M:%S")
         except ValueError:
-            print "Invalid time"
+            print("Invalid time")
         return int(dt.strftime("%s"))

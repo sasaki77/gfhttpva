@@ -187,10 +187,10 @@ def test_query_not_exist_ch(client, query):
     json_data = rv.get_json()
     res = {'message': 'connection timeout'}
     request = ("structure \n    "
-               "string endtime 2018-01-01T15:00:00\n    "
-               "string param1 0\n    "
+               "string entity long\n    "
                "string starttime 2018-01-01T09:00:00\n    "
-               "string entity long\n")
+               "string endtime 2018-01-01T15:00:00\n    string param1 0\n"
+               )
     res["details"] = {'ch': 'NOT:EXIST:CH', 'request': request}
     assert json_data == res
 
@@ -201,9 +201,10 @@ def test_query_not_exist_ch_table(client, query):
     rv = client.post("/query", json=query)
     json_data = rv.get_json()
     res = {'message': 'connection timeout'}
-    request = ("structure \n    string endtime 2018-01-01T15:00:00\n    "
-               "string starttime 2018-01-01T09:00:00\n    "
-               "string entity table\n")
+    request = ('structure \n    string entity table\n    '
+               'string starttime 2018-01-01T09:00:00\n    '
+               'string endtime 2018-01-01T15:00:00\n'
+               )
     res["details"] = {'ch': 'NOT:EXIST:CH', 'request': request}
     assert json_data == res
 
@@ -242,9 +243,10 @@ def test_query_error_value(client, query):
     json_data = rv.get_json()
     res = {'message': 'RPC return has no requested key'}
     rpc_val = ("{'labels': ['value', 'seconds', 'nanoseconds'], "
-               "'value': {'seconds': array([0], dtype=uint64), "
-               "'nanoseconds': array([0], dtype=uint64), "
-               "'value': array([0], dtype=uint64)}}")
+               "'value': {'value': array([0], dtype=uint64), "
+               "'seconds': array([0], dtype=uint64), "
+               "'nanoseconds': array([0], dtype=uint64)}}"
+               )
     res["details"] = {'RPC return': rpc_val, 'request key': 'secondsPastEpoch'}
     assert json_data == res
 

@@ -4,6 +4,8 @@ This package is API gateway for [generalpvaccess-datasource](https://github.com/
 
 It receives http requests from generalpvaccess-datasource and retrieves data from pvAccess RPC server.
 
+This package supports Python 3.7 or later.
+
 See [docmentation](https://sasaki77.github.io/gfhttpva/)
 
 ## Installing

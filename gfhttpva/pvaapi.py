@@ -1,10 +1,11 @@
+import sys
 from threading import RLock
 
 import numpy as np
 import pandas as pd
 
 import pvaccess as pva
-from exception import InvalidRequest
+from .exception import InvalidRequest
 
 from flask import current_app
 
@@ -253,7 +254,7 @@ class Pvaapi(object):
         try:
             response = rpc.invoke(request, self.timeout)
         except pva.PvaException as e:
-            raise InvalidRequest(e.message, status_code=400,
+            raise InvalidRequest(str(e), status_code=400,
                                  details={"request": str(request),
                                           "ch": ch_name}
                                  )
@@ -312,7 +313,7 @@ class Pvaapi(object):
         try:
             response = rpc.invoke(request, self.timeout)
         except pva.PvaException as e:
-            raise InvalidRequest(e.message, status_code=400,
+            raise InvalidRequest(str(e), status_code=400,
                                  details={"request": str(request),
                                           "ch": ch_name}
                                  )
@@ -395,7 +396,7 @@ class Pvaapi(object):
         try:
             response = rpc.invoke(request, self.timeout)
         except pva.PvaException as e:
-            raise InvalidRequest(e.message, status_code=400,
+            raise InvalidRequest(str(e), status_code=400,
                                  details={"request": str(request),
                                           "ch": ch_name}
                                  )
@@ -454,7 +455,7 @@ class Pvaapi(object):
         try:
             response = rpc.invoke(request, self.timeout)
         except pva.PvaException as e:
-            raise InvalidRequest(e.message, status_code=400,
+            raise InvalidRequest(str(e), status_code=400,
                                  details={"request": str(request),
                                           "ch": ch_name}
                                  )
