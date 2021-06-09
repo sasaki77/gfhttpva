@@ -69,7 +69,7 @@ def hello_world():
     """
 
     current_app.logger.info(request.headers)
-    current_app.logger.info(request.get_json())
+    current_app.logger.info(request.get_json(silent=True))
 
     return "pvaccess python Grafana datasource"
 
